@@ -1,0 +1,221 @@
+100 Experimente geplant.
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+[1/100] GP_BO_f1_d2_i1_nominal_level0_r00: ok (27.5s)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+[2/100] GP_BO_f1_d2_i1_nominal_level0_r01: ok (30.5s)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+[3/100] GP_BO_f1_d2_i1_nominal_level0_r02: ok (25.3s)
+[4/100] GP_BO_f1_d2_i1_nominal_level0_r03: ok (31.1s)
+[5/100] GP_BO_f1_d2_i1_nominal_level0_r04: ok (27.0s)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+[6/100] GP_BO_f1_d5_i1_nominal_level0_r00: ok (49.2s)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+[7/100] GP_BO_f1_d5_i1_nominal_level0_r01: ok (48.4s)
+[8/100] GP_BO_f1_d5_i1_nominal_level0_r02: ok (55.8s)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+[9/100] GP_BO_f1_d5_i1_nominal_level0_r03: ok (47.0s)
+[10/100] GP_BO_f1_d5_i1_nominal_level0_r04: ok (43.6s)
+[11/100] PROBO_f1_d2_i1_nominal_level0_r00: ok (47.1s)
+[12/100] PROBO_f1_d2_i1_nominal_level0_r01: ok (50.8s)
+[13/100] PROBO_f1_d2_i1_nominal_level0_r02: ok (49.6s)
+[14/100] PROBO_f1_d2_i1_nominal_level0_r03: ok (49.5s)
+[15/100] PROBO_f1_d2_i1_nominal_level0_r04: ok (49.6s)
+[16/100] PROBO_f1_d5_i1_nominal_level0_r00: ok (48.2s)
+[17/100] PROBO_f1_d5_i1_nominal_level0_r01: ok (46.6s)
+[18/100] PROBO_f1_d5_i1_nominal_level0_r02: ok (46.7s)
+[19/100] PROBO_f1_d5_i1_nominal_level0_r03: ok (47.2s)
+[20/100] PROBO_f1_d5_i1_nominal_level0_r04: ok (46.4s)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+[21/100] GP_BO_f1_d2_i1_prior_error_level0.5_r00: ok (19.1s)
+[22/100] GP_BO_f1_d2_i1_prior_error_level0.5_r01: ok (20.1s)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+[23/100] GP_BO_f1_d2_i1_prior_error_level0.5_r02: ok (19.1s)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+[24/100] GP_BO_f1_d2_i1_prior_error_level0.5_r03: ok (22.3s)
+[25/100] GP_BO_f1_d2_i1_prior_error_level0.5_r04: ok (21.0s)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+[26/100] GP_BO_f1_d2_i1_prior_error_level1_r00: ok (18.8s)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+[27/100] GP_BO_f1_d2_i1_prior_error_level1_r01: ok (21.7s)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+[28/100] GP_BO_f1_d2_i1_prior_error_level1_r02: ok (19.7s)
+[29/100] GP_BO_f1_d2_i1_prior_error_level1_r03: ok (21.3s)
+[30/100] GP_BO_f1_d2_i1_prior_error_level1_r04: ok (20.9s)
+[31/100] GP_BO_f1_d5_i1_prior_error_level0.5_r00: ok (35.8s)
+[32/100] GP_BO_f1_d5_i1_prior_error_level0.5_r01: ok (31.1s)
+[33/100] GP_BO_f1_d5_i1_prior_error_level0.5_r02: ok (29.9s)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+[34/100] GP_BO_f1_d5_i1_prior_error_level0.5_r03: ok (33.1s)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+[35/100] GP_BO_f1_d5_i1_prior_error_level0.5_r04: ok (27.9s)
+[36/100] GP_BO_f1_d5_i1_prior_error_level1_r00: ok (37.9s)
+[37/100] GP_BO_f1_d5_i1_prior_error_level1_r01: ok (30.4s)
+[38/100] GP_BO_f1_d5_i1_prior_error_level1_r02: ok (33.2s)
+[39/100] GP_BO_f1_d5_i1_prior_error_level1_r03: ok (28.2s)
+[40/100] GP_BO_f1_d5_i1_prior_error_level1_r04: ok (29.3s)
+[41/100] PROBO_f1_d2_i1_prior_error_level0.5_r00: ok (48.9s)
+[42/100] PROBO_f1_d2_i1_prior_error_level0.5_r01: ok (46.7s)
+[43/100] PROBO_f1_d2_i1_prior_error_level0.5_r02: ok (48.0s)
+[44/100] PROBO_f1_d2_i1_prior_error_level0.5_r03: ok (47.2s)
+[45/100] PROBO_f1_d2_i1_prior_error_level0.5_r04: ok (46.9s)
+[46/100] PROBO_f1_d2_i1_prior_error_level1_r00: ok (46.6s)
+[47/100] PROBO_f1_d2_i1_prior_error_level1_r01: ok (46.5s)
+[48/100] PROBO_f1_d2_i1_prior_error_level1_r02: ok (46.5s)
+[49/100] PROBO_f1_d2_i1_prior_error_level1_r03: ok (46.0s)
+[50/100] PROBO_f1_d2_i1_prior_error_level1_r04: ok (46.4s)
+[51/100] PROBO_f1_d5_i1_prior_error_level0.5_r00: ok (47.4s)
+[52/100] PROBO_f1_d5_i1_prior_error_level0.5_r01: ok (48.7s)
+[53/100] PROBO_f1_d5_i1_prior_error_level0.5_r02: ok (50.4s)
+[54/100] PROBO_f1_d5_i1_prior_error_level0.5_r03: ok (51.9s)
+[55/100] PROBO_f1_d5_i1_prior_error_level0.5_r04: ok (50.6s)
+[56/100] PROBO_f1_d5_i1_prior_error_level1_r00: ok (50.6s)
+[57/100] PROBO_f1_d5_i1_prior_error_level1_r01: ok (50.8s)
+[58/100] PROBO_f1_d5_i1_prior_error_level1_r02: ok (50.4s)
+[59/100] PROBO_f1_d5_i1_prior_error_level1_r03: ok (50.7s)
+[60/100] PROBO_f1_d5_i1_prior_error_level1_r04: ok (50.6s)
+[61/100] GP_BO_f1_d2_i1_stochastic_input_level0.25_r00: ok (33.3s)
+[62/100] GP_BO_f1_d2_i1_stochastic_input_level0.25_r01: ok (33.8s)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+[63/100] GP_BO_f1_d2_i1_stochastic_input_level0.25_r02: ok (35.3s)
+[64/100] GP_BO_f1_d2_i1_stochastic_input_level0.25_r03: ok (29.5s)
+[65/100] GP_BO_f1_d2_i1_stochastic_input_level0.25_r04: ok (30.8s)
+[66/100] GP_BO_f1_d2_i1_stochastic_input_level0.5_r00: ok (26.0s)
+[67/100] GP_BO_f1_d2_i1_stochastic_input_level0.5_r01: ok (27.7s)
+[68/100] GP_BO_f1_d2_i1_stochastic_input_level0.5_r02: ok (32.1s)
+[69/100] GP_BO_f1_d2_i1_stochastic_input_level0.5_r03: ok (29.1s)
+[70/100] GP_BO_f1_d2_i1_stochastic_input_level0.5_r04: ok (26.3s)
+[71/100] GP_BO_f1_d5_i1_stochastic_input_level0.25_r00: ok (59.9s)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+[72/100] GP_BO_f1_d5_i1_stochastic_input_level0.25_r01: ok (52.1s)
+[73/100] GP_BO_f1_d5_i1_stochastic_input_level0.25_r02: ok (56.2s)
+[74/100] GP_BO_f1_d5_i1_stochastic_input_level0.25_r03: ok (56.0s)
+[75/100] GP_BO_f1_d5_i1_stochastic_input_level0.25_r04: ok (71.0s)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+[76/100] GP_BO_f1_d5_i1_stochastic_input_level0.5_r00: ok (54.3s)
+[77/100] GP_BO_f1_d5_i1_stochastic_input_level0.5_r01: ok (56.1s)
+[78/100] GP_BO_f1_d5_i1_stochastic_input_level0.5_r02: ok (46.3s)
+[79/100] GP_BO_f1_d5_i1_stochastic_input_level0.5_r03: ok (56.0s)
+[80/100] GP_BO_f1_d5_i1_stochastic_input_level0.5_r04: ok (58.8s)
+[81/100] PROBO_f1_d2_i1_stochastic_input_level0.25_r00: ok (50.7s)
+[82/100] PROBO_f1_d2_i1_stochastic_input_level0.25_r01: ok (50.5s)
+[83/100] PROBO_f1_d2_i1_stochastic_input_level0.25_r02: ok (50.0s)
+[84/100] PROBO_f1_d2_i1_stochastic_input_level0.25_r03: ok (50.2s)
+[85/100] PROBO_f1_d2_i1_stochastic_input_level0.25_r04: ok (50.1s)
+[86/100] PROBO_f1_d2_i1_stochastic_input_level0.5_r00: ok (51.4s)
+[87/100] PROBO_f1_d2_i1_stochastic_input_level0.5_r01: ok (52.1s)
+[88/100] PROBO_f1_d2_i1_stochastic_input_level0.5_r02: ok (51.6s)
+[89/100] PROBO_f1_d2_i1_stochastic_input_level0.5_r03: ok (61.3s)
+[90/100] PROBO_f1_d2_i1_stochastic_input_level0.5_r04: ok (59.0s)
+[91/100] PROBO_f1_d5_i1_stochastic_input_level0.25_r00: ok (55.7s)
+[92/100] PROBO_f1_d5_i1_stochastic_input_level0.25_r01: ok (55.4s)
+[93/100] PROBO_f1_d5_i1_stochastic_input_level0.25_r02: ok (54.0s)
+[94/100] PROBO_f1_d5_i1_stochastic_input_level0.25_r03: ok (54.1s)
+[95/100] PROBO_f1_d5_i1_stochastic_input_level0.25_r04: ok (53.2s)
+[96/100] PROBO_f1_d5_i1_stochastic_input_level0.5_r00: ok (52.7s)
+[97/100] PROBO_f1_d5_i1_stochastic_input_level0.5_r01: ok (53.7s)
+[98/100] PROBO_f1_d5_i1_stochastic_input_level0.5_r02: ok (54.0s)
+[99/100] PROBO_f1_d5_i1_stochastic_input_level0.5_r03: ok (56.0s)
+[100/100] PROBO_f1_d5_i1_stochastic_input_level0.5_r04: ok (55.5s)
+Fertig: 9500 Zeilen, gespeichert in C:\Users\gabri\Download - ICH\Bachelorarbeit_Version_2\01_RoBo_Benchmark_Code\benchmark\results\raw\results.csv
+Excel erstellt: C:\Users\gabri\Download - ICH\Bachelorarbeit_Version_2\01_RoBo_Benchmark_Code\benchmark\results\raw\results.xlsx

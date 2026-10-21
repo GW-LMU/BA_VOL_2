@@ -1,0 +1,8 @@
+numpy
+scipy
+pandas
+openpyxl
+torch
+gpytorch
+botorch
+coco-experiment

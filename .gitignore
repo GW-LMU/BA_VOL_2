@@ -1,0 +1,13 @@
+# Zugangsdaten - niemals committen
+ROBO_Benchmark/KEY_LRZ/
+RoBo_Benchmark/KEY_LRZ/
+
+# Python
+__pycache__/
+*.pyc
+.venv311/
+RoBo_Benchmark/.venv311/
+
+# generierte Daten (gross, reproduzierbar aus den Skripten)
+ROBO_Benchmark/data/
+RoBo_Benchmark/data/
