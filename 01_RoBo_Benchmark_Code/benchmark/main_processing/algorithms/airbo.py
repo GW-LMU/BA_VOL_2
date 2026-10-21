@@ -96,9 +96,8 @@ def _mmd_kernel_value(U, V, length_scale, alpha, use_nystrom, sub_samp_size, rng
 
 def run_airbo(train_X, train_Y, dim, acquisition_func,
               lower_bound=config.BOUNDS[0], upper_bound=config.BOUNDS[1],
-              prior_offset=None, rng=None, noise_std=None, n_cloud_samples=50, sub_samp_size=20,
-              mmd_length_scale=1.0, mmd_alpha=1.0, noise_var=1e-6,
-              beta=2.0, n_x_candidates=200, use_nystrom=True):
+              prior_offset=None, rng=None, *, noise_std, n_cloud_samples, sub_samp_size,
+              mmd_length_scale, mmd_alpha, noise_var, beta, n_x_candidates, use_nystrom):
     """
     Fuehrt eine Iteration von AIRBO aus (Yang et al. 2023, Algorithmus gemaess
     Sec. 3 + Gl. 15):
@@ -117,7 +116,8 @@ def run_airbo(train_X, train_Y, dim, acquisition_func,
     prior_offset : float (Szenario prior_error) oder None
     rng     : np.random.Generator fuer Wolken, Nystroem und Kandidaten (vom Runner pro Wiederholung)
     noise_std : Standardabweichung der angenommenen Eingabeunsicherheit
-                (Standard: 1% der Suchraumbreite, analog epsilon in stableopt.py)
+                (None: 1% der Suchraumbreite, analog epsilon in stableopt.py)
+    noise_std, ..., use_nystrom : aus config.ALGORITHM_CONFIGS["AIRBO"]
 
     Rueckgabe: (next_x, acq_value, model_info); acq_value ist der UCB-Wert auf der
     standardisierten Modellskala

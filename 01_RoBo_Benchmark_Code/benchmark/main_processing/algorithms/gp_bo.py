@@ -44,6 +44,30 @@ except ImportError:
         )
 
 
+_MATERN_NU = {"Matern52_ARD": 2.5, "Matern32_ARD": 1.5}
+
+
+def get_covar_module(kernel, ard_num_dims):
+    # Kernel-Name aus config.ALGORITHM_CONFIGS -> GPyTorch-Kernel. Alle Varianten mit
+    # ARD und demselben dimensionsskalierten LogNormal-Prior auf die Laengenskalen
+    if kernel == "RBF_ARD":
+        return get_covar_module_with_dim_scaled_prior(ard_num_dims=ard_num_dims)
+    if kernel not in _MATERN_NU:
+        raise ValueError(f"Unbekannter Kernel: {kernel} (erlaubt: RBF_ARD, {', '.join(_MATERN_NU)})")
+    from gpytorch.constraints import GreaterThan
+    from gpytorch.kernels import MaternKernel
+    from gpytorch.priors import LogNormalPrior
+
+    loc, scale = math.sqrt(2) + 0.5 * math.log(ard_num_dims), math.sqrt(3)
+    return MaternKernel(
+        nu=_MATERN_NU[kernel],
+        ard_num_dims=ard_num_dims,
+        lengthscale_prior=LogNormalPrior(loc=loc, scale=scale),
+        lengthscale_constraint=GreaterThan(
+            2.5e-2, transform=None, initial_value=math.exp(loc - scale ** 2)),
+    )
+
+
 def posterior_mean_fn(model):
     def mean(X_np):
         X = torch.as_tensor(np.atleast_2d(X_np), dtype=torch.double)
@@ -61,12 +85,12 @@ def posterior_std_fn(model):
     return std
 
 
-def get_hyperparameters(model, prior_offset):
+def get_hyperparameters(model, prior_offset, kernel):
     # Alles, was zusammen mit den Trainingsdaten den Posterior eindeutig festlegt.
     # Laengenskalen beziehen sich auf den normierten Eingaberaum [0, 1]^d (Normalize),
     # Rauschen und Mean-Konstante auf standardisierte y-Werte (Standardize).
     return {
-        "kernel": "RBF_ARD",
+        "kernel": kernel,
         "lengthscale": model.covar_module.lengthscale.detach().reshape(-1).tolist(),
         "noise": float(model.likelihood.noise.detach().reshape(-1)[0]),
         "mean_constant": float(model.mean_module.constant.detach()),
@@ -76,20 +100,22 @@ def get_hyperparameters(model, prior_offset):
     }
 
 
-def run_gaussian_process(train_X, train_Y, dim, acquisition_func, lower_bound, upper_bound, prior_offset=None):
+def run_gaussian_process(train_X, train_Y, dim, acquisition_func, lower_bound, upper_bound, prior_offset=None,
+                         *, kernel, beta, num_restarts, raw_samples):
+    # kernel, beta, num_restarts, raw_samples: aus config.ALGORITHM_CONFIGS["GP_BO"]
     gp_bounds = torch.tensor([[lower_bound] * dim, [upper_bound] * dim], dtype=torch.double)
     # Kernel + Likelihood EXPLIZIT gesetzt statt SingleTaskGP-Defaults, da sich
     # diese zwischen BoTorch-Versionen geaendert haben (< 0.12: Matern-5/2 mit
     # Gamma-Priors, >= 0.12: RBF mit dimensionsskaliertem LogNormal-Prior nach
     # Hvarfner et al. 2024). So laeuft auf jeder Instanz dasselbe Modell:
-    #   - RBF-Kernel mit ARD (eine Laengenskala je Dimension), LogNormal-Prior
-    #     auf die Laengenskalen, skaliert mit sqrt(dim); kein ScaleKernel
-    #     (Outputscale entfaellt wegen Standardize)
+    #   - Kernel laut config (Standard RBF) mit ARD (eine Laengenskala je Dimension),
+    #     LogNormal-Prior auf die Laengenskalen, skaliert mit sqrt(dim); kein
+    #     ScaleKernel (Outputscale entfaellt wegen Standardize)
     #   - Gauss-Likelihood mit LogNormal-Prior auf die Rauschvarianz
     #     (Rauschen wird mitgelernt)
     model = SingleTaskGP(
         train_X, train_Y,
-        covar_module=get_covar_module_with_dim_scaled_prior(ard_num_dims=dim),
+        covar_module=get_covar_module(kernel, ard_num_dims=dim),
         likelihood=get_gaussian_likelihood_with_lognormal_prior(),
         input_transform=Normalize(d=dim, bounds=gp_bounds),
         outcome_transform=Standardize(m=1),)
@@ -101,7 +127,6 @@ def run_gaussian_process(train_X, train_Y, dim, acquisition_func, lower_bound, u
     mll = ExactMarginalLogLikelihood(model.likelihood, model)
     fit_gpytorch_mll(mll) 
 
-    beta = 2.0
     if acquisition_func == "EI":
         acqf = LogExpectedImprovement(model, best_f=train_Y.max())
     elif acquisition_func == "UCB":
@@ -113,12 +138,11 @@ def run_gaussian_process(train_X, train_Y, dim, acquisition_func, lower_bound, u
 
 
     bounds = torch.tensor([[lower_bound] * dim, [upper_bound] * dim], dtype=torch.double)
-    num_restarts, raw_samples = 10, 512
     next_x, acq_value = optimize_acqf(
         acqf, bounds=bounds, q=1, num_restarts=num_restarts, raw_samples=raw_samples,
     )
 
-    hyperparameters = get_hyperparameters(model, prior_offset)
+    hyperparameters = get_hyperparameters(model, prior_offset, kernel)
     hyperparameters.update({
         "acq_beta": beta if acquisition_func in ("UCB", "LCB") else None,
         "acq_num_restarts": num_restarts,

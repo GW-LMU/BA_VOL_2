@@ -15,7 +15,7 @@ from gpytorch.mlls import ExactMarginalLogLikelihood
 from preprocessing import config
 from main_processing.scenarios.prior_error import apply_prior_error
 from main_processing.algorithms.gp_bo import (
-    get_covar_module_with_dim_scaled_prior, get_gaussian_likelihood_with_lognormal_prior,
+    get_covar_module, get_gaussian_likelihood_with_lognormal_prior,
     get_hyperparameters, posterior_mean_fn, posterior_std_fn,
 )
 
@@ -37,7 +37,7 @@ def sample_ball(center, epsilon, n_samples, lower_bound, upper_bound, rng):
 def run_stable_opt(train_X, train_Y, dim, acquisition_func,
                     lower_bound=config.BOUNDS[0], upper_bound=config.BOUNDS[1],
                     prior_offset=None, rng=None,
-                    epsilon=None, beta=2.0, n_x_candidates=256, n_delta_candidates=32):
+                    *, kernel, epsilon, beta, n_x_candidates, n_delta_candidates):
     """
     Fuehrt eine Iteration des STABLE OPT-Algorithmus aus (Bogunovic et al. 2018,
     "Adversarially Robust Optimization with Gaussian Processes", Algorithm 1):
@@ -57,7 +57,8 @@ def run_stable_opt(train_X, train_Y, dim, acquisition_func,
     dim     : int, Dimension des Suchraums
     prior_offset : float (Szenario prior_error) oder None
     rng     : np.random.Generator fuer das Kandidaten-Sampling (vom Runner pro Wiederholung)
-    epsilon : Stabilitaetsradius (Standard: 1% der Suchraumbreite)
+    epsilon : Stabilitaetsradius (None: 1% der Suchraumbreite)
+    kernel, epsilon, beta, n_x_candidates, n_delta_candidates : aus config.ALGORITHM_CONFIGS["STABLEOPT"]
 
     Rueckgabe: (next_x, acq_value, model_info); acq_value ist der ucb-Wert von x~_t
     """
@@ -76,7 +77,7 @@ def run_stable_opt(train_X, train_Y, dim, acquisition_func,
     # 1) Modell fitten (Inputs auf [0,1]^d normalisiert, Outputs standardisiert)
     model = SingleTaskGP(
         train_X, train_Y,
-        covar_module=get_covar_module_with_dim_scaled_prior(ard_num_dims=dim),
+        covar_module=get_covar_module(kernel, ard_num_dims=dim),
         likelihood=get_gaussian_likelihood_with_lognormal_prior(),
         input_transform=Normalize(d=dim, bounds=bounds),
         outcome_transform=Standardize(m=1),
@@ -125,7 +126,7 @@ def run_stable_opt(train_X, train_Y, dim, acquisition_func,
     next_x = torch.as_tensor(query_point, dtype=torch.double)
     acq_value = torch.as_tensor(best_stable_ucb, dtype=torch.double)
 
-    hyperparameters = get_hyperparameters(model, prior_offset)
+    hyperparameters = get_hyperparameters(model, prior_offset, kernel)
     hyperparameters.update({
         "acq_beta": beta,
         "epsilon": float(epsilon),

@@ -70,7 +70,7 @@ class BayesOptimizer:
     """
 
     def __init__(self, x_obs, y_obs, y_obs_vars=None, kernel=matern, c=50.0,
-                 length_scale=1.0, outputscale=1.0, dim=1):
+                 length_scale=1.0, outputscale=1.0, dim=1, prior_mean_max=5.0, n_prior_means=250):
         """
         x_obs: array der beobachteten x-Werte (dim=1: shape (n,); dim>1: shape (n, dim))
         y_obs: array der beobachteten y-Werte
@@ -81,6 +81,7 @@ class BayesOptimizer:
         c: Imprecision-Parameter
         length_scale, outputscale: Kernel-Hyperparameter
         dim: Dimension des Suchraums
+        prior_mean_max, n_prior_means: Prior-Mittelwert-Kandidaten M in [-prior_mean_max, prior_mean_max]
         """
         self.dim = dim
         self.y_obs = np.array(y_obs)
@@ -108,7 +109,7 @@ class BayesOptimizer:
 
         # Prior-Mittelwert-Kandidaten
         rng = np.random.default_rng(42)
-        self.Ms = np.sort(rng.uniform(0, 5, 250))
+        self.Ms = np.sort(rng.uniform(0, prior_mean_max, n_prior_means))
         self.Ms_ = np.concatenate([self.Ms, -self.Ms])
 
         # worst-case Prior

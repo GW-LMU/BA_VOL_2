@@ -45,50 +45,72 @@ RESULT_COLUMNS = [
 ]
 
 
-def _to_json(value):
+# Signifikante Stellen fuer mu_train / sigma_train. Diese Spalten machen den Grossteil
+# der CSV aus; 6 statt ~17 Stellen halbieren die Dateigroesse ungefaehr.
+TRAIN_SIG_DIGITS = 6
+
+
+def _to_json(value, sig_digits=None):
     # Listen/Dicts/Arrays als JSON-String in die CSV; auslesen mit json.loads
+    # sig_digits: nur fuer numerische Arrays - rundet jeden Wert auf so viele signifikante Stellen
     if value is None:
         return None
+    if sig_digits is not None:
+        round_sig = np.vectorize(lambda v: float(f"{v:.{sig_digits}g}"), otypes=[float])
+        value = round_sig(np.asarray(value, dtype=float))
     if isinstance(value, np.ndarray):
         value = value.tolist()
     return json.dumps(value, default=float)
 
 
+def get_algorithm_params(algorithm):
+    # Einstellungen aus config.ALGORITHM_CONFIGS ohne die beiden Auswahl-Schluessel
+    return {key: value for key, value in config.ALGORITHM_CONFIGS[algorithm].items()
+            if key not in ("surrogate_model", "acquisition")}
+
+
 def select_and_run_variant(surrogate_model, acquisition_func, train_X, train_Y, dim,
-                           lower_bound, upper_bound, prior_offset, rng):
+                           lower_bound, upper_bound, prior_offset, rng, algo_params):
     # prior_offset: float (Szenario prior_error) oder None (alle anderen Szenarien)
     # rng: np.random.Generator fuer Verfahren mit eigener Zufallssuche (PROBO, STABLEOPT, DRBO, AIRBO)
+    # algo_params: Einstellungen des Verfahrens aus config.ALGORITHM_CONFIGS (get_algorithm_params)
     # Rueckgabe: (next_x, acq_value, model_info) mit model_info["posterior_mean"]
 
     if surrogate_model == "GP_BO":
         from main_processing.algorithms import gp_bo
         return gp_bo.run_gaussian_process(train_X, train_Y, dim, acquisition_func,
-                                          lower_bound, upper_bound, prior_offset)
+                                          lower_bound, upper_bound, prior_offset,
+                                          **algo_params)
     elif surrogate_model == "PROBO":
         from main_processing.algorithms import probo
         return probo.run_imprecise_gausian_prozess(train_X, train_Y, dim, acquisition_func,
                                                    lower_bound, upper_bound,
-                                                   prior_offset=prior_offset, rng=rng)
+                                                   prior_offset=prior_offset, rng=rng,
+                                                   **algo_params)
     elif surrogate_model == "RP_BO":
         from main_processing.algorithms import relevance_pursuit
         return relevance_pursuit.run_relevance_pursuit(train_X, train_Y, dim, acquisition_func,
                                                        lower_bound, upper_bound,
-                                                       prior_offset=prior_offset)
+                                                       prior_offset=prior_offset,
+                                                       **algo_params)
     elif surrogate_model == "STABLEOPT":
         from main_processing.algorithms import stableopt
         return stableopt.run_stable_opt(train_X, train_Y, dim, acquisition_func,
                                         lower_bound, upper_bound,
-                                        prior_offset=prior_offset, rng=rng)
+                                        prior_offset=prior_offset, rng=rng,
+                                        **algo_params)
     elif surrogate_model == "DRBO":
         from main_processing.algorithms import drbo
         return drbo.run_drbo(train_X, train_Y, dim, acquisition_func,
                              lower_bound, upper_bound,
-                             prior_offset=prior_offset, rng=rng)
+                             prior_offset=prior_offset, rng=rng,
+                             **algo_params)
     elif surrogate_model == "AIRBO":
         from main_processing.algorithms import airbo
         return airbo.run_airbo(train_X, train_Y, dim, acquisition_func,
                                lower_bound, upper_bound,
-                               prior_offset=prior_offset, rng=rng)
+                               prior_offset=prior_offset, rng=rng,
+                               **algo_params)
     else:
         raise ValueError(f"Unbekanntes Surrogatmodell: {surrogate_model}")
 
@@ -125,6 +147,7 @@ def run_single_experiment(experiment):
 
     surrogate_model = experiment["surrogate_model"]
     acquisition_func = experiment["acquisition_func"]
+    algo_params = get_algorithm_params(experiment["algorithm"])
     function = experiment["function"]
     dimension = experiment["dimension"]
     instance = experiment["instance"]
@@ -188,7 +211,7 @@ def run_single_experiment(experiment):
             # Naechste Eingabe bestimmen, abhaengig von Surrogatmodell und Akquisitionsfunktion
             next_x, acq_value, model_info = select_and_run_variant(
                 surrogate_model, acquisition_func, train_X, train_Y, dimension,
-                lower_bound, upper_bound, prior_offset, algo_rng)
+                lower_bound, upper_bound, prior_offset, algo_rng, algo_params)
             next_x_np = next_x.detach().cpu().numpy().astype(np.float64).reshape(-1)
 
             # Modell an den Trainingspunkten - nur gespeichert, damit andere
@@ -242,8 +265,8 @@ def run_single_experiment(experiment):
                 "prior_offset": prior_offset,
                 "n_train": n_train,
                 "rec_rule": rec_rule,
-                "mu_train": _to_json(mu_train),
-                "sigma_train": _to_json(sigma_train),
+                "mu_train": _to_json(mu_train, TRAIN_SIG_DIGITS),
+                "sigma_train": _to_json(sigma_train, TRAIN_SIG_DIGITS),
                 "hyperparameters": _to_json(model_info.get("hyperparameters")),
                 "iter_time_s": time.time() - iter_start,
                 **(start_data if iteration == 1 else {}),

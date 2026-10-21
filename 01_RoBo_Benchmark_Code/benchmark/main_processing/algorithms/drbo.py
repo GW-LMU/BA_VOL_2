@@ -18,7 +18,7 @@ from gpytorch.mlls import ExactMarginalLogLikelihood
 from preprocessing import config
 from main_processing.scenarios.prior_error import apply_prior_error
 from main_processing.algorithms.gp_bo import (
-    get_covar_module_with_dim_scaled_prior, get_gaussian_likelihood_with_lognormal_prior,
+    get_covar_module, get_gaussian_likelihood_with_lognormal_prior,
     get_hyperparameters, posterior_mean_fn, posterior_std_fn,
 )
 
@@ -55,8 +55,8 @@ def _solve_worst_case_weights(ucb_values, w_ref, M, epsilon):
 
 def run_drbo(train_X, train_Y, dim, acquisition_func,
              lower_bound=config.BOUNDS[0], upper_bound=config.BOUNDS[1],
-             prior_offset=None, rng=None, context_dim=1, n_context_candidates=15, n_x_candidates=200,
-             mmd_lengthscale=1.0, delta=0.1, beta=2.0):
+             prior_offset=None, rng=None, *, kernel, context_dim, n_context_candidates, n_x_candidates,
+             mmd_lengthscale, delta, beta):
     """
     Fuehrt eine Iteration der Data-Driven-DRBO-Variante aus (Kirschner, Bogunovic, Jegelka,
     Krause 2020, "Distributionally Robust Bayesian Optimization", Algorithm 1 + Sec. 3.2):
@@ -77,6 +77,7 @@ def run_drbo(train_X, train_Y, dim, acquisition_func,
     dim     : int, Dimension des Gesamtraums (Kontrollvariablen + Kontextvariablen)
     prior_offset : float (Szenario prior_error) oder None
     rng     : np.random.Generator fuer Kandidaten und Kontext-Ziehung (vom Runner pro Wiederholung)
+    kernel, context_dim, ..., beta : aus config.ALGORITHM_CONFIGS["DRBO"]
 
     Rueckgabe: (next_x, acq_value, model_info)
     """
@@ -102,7 +103,7 @@ def run_drbo(train_X, train_Y, dim, acquisition_func,
     # Modell fitten (Inputs auf [0,1]^d normalisiert, Outputs standardisiert)
     model = SingleTaskGP(
         train_X, train_Y,
-        covar_module=get_covar_module_with_dim_scaled_prior(ard_num_dims=dim),
+        covar_module=get_covar_module(kernel, ard_num_dims=dim),
         likelihood=get_gaussian_likelihood_with_lognormal_prior(),
         input_transform=Normalize(d=dim, bounds=bounds),
         outcome_transform=Standardize(m=1),
@@ -177,7 +178,7 @@ def run_drbo(train_X, train_Y, dim, acquisition_func,
     next_x = torch.as_tensor(next_x_full, dtype=torch.double)
     acq_value = torch.as_tensor(best_val, dtype=torch.double)
 
-    hyperparameters = get_hyperparameters(model, prior_offset)
+    hyperparameters = get_hyperparameters(model, prior_offset, kernel)
     hyperparameters.update({
         "acq_beta": beta,
         "context_dim": context_dim,

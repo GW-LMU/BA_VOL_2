@@ -19,13 +19,13 @@ from gpytorch.mlls import ExactMarginalLogLikelihood
 from preprocessing import config
 from main_processing.scenarios.prior_error import apply_prior_error
 from main_processing.algorithms.gp_bo import (
-    get_covar_module_with_dim_scaled_prior, posterior_mean_fn, posterior_std_fn,
+    get_covar_module, posterior_mean_fn, posterior_std_fn,
 )
 
 
 def run_relevance_pursuit(train_X, train_Y, dim, acquisition_func,
                           lower_bound=config.BOUNDS[0], upper_bound=config.BOUNDS[1],
-                          prior_offset=None):
+                          prior_offset=None, *, kernel, beta, num_restarts, raw_samples):
     """
     Fuehrt die robuste Relevance-Pursuit-GP-Variante fuer eine Iteration aus:
     1) RobustRelevancePursuitSingleTaskGP fitten (erkennt Ausreisser automatisch
@@ -36,6 +36,7 @@ def run_relevance_pursuit(train_X, train_Y, dim, acquisition_func,
     train_X : torch.double, shape [n, dim]
     train_Y : torch.double, shape [n, 1] (Maximierungs-Konvention, y = -f)
     prior_offset : float (Szenario prior_error) oder None
+    kernel, beta, num_restarts, raw_samples : aus config.ALGORITHM_CONFIGS["RP_BO"]
 
     Rueckgabe: (next_x, acq_value, model_info) mit posterior_mean/-std und hyperparameters
     """
@@ -47,7 +48,7 @@ def run_relevance_pursuit(train_X, train_Y, dim, acquisition_func,
     #    Likelihood bleibt die Ausreisser-Likelihood des Modells (SparseOutlierNoise)
     model = RobustRelevancePursuitSingleTaskGP(
         train_X, train_Y,
-        covar_module=get_covar_module_with_dim_scaled_prior(ard_num_dims=dim),
+        covar_module=get_covar_module(kernel, ard_num_dims=dim),
         input_transform=Normalize(d=dim, bounds=bounds),
         outcome_transform=Standardize(m=1),
     )
@@ -59,7 +60,6 @@ def run_relevance_pursuit(train_X, train_Y, dim, acquisition_func,
     fit_gpytorch_mll(mll)
 
     # 2) Akquisitionsfunktion abfragen und passend waehlen
-    beta = 2.0
     if acquisition_func == "EI":
         acqf = LogExpectedImprovement(model, best_f=train_Y.max())
     elif acquisition_func == "UCB":
@@ -70,14 +70,13 @@ def run_relevance_pursuit(train_X, train_Y, dim, acquisition_func,
         raise ValueError(f"Unbekannte Akquisitionsfunktion fuer Relevance Pursuit: {acquisition_func}")
 
     # 3) naechsten Punkt vorschlagen
-    num_restarts, raw_samples = 10, 512
     next_x, acq_value = optimize_acqf(
         acqf, bounds=bounds, q=1, num_restarts=num_restarts, raw_samples=raw_samples,
     )
 
     noise_covar = model.likelihood.noise_covar
     hyperparameters = {
-        "kernel": "RBF_ARD",
+        "kernel": kernel,
         "lengthscale": model.covar_module.lengthscale.detach().reshape(-1).tolist(),
         "noise": float(noise_covar.base_noise.noise.detach().reshape(-1)[0]),
         # Indizes der als Ausreisser erkannten Trainingspunkte + deren Zusatzvarianz

@@ -9,48 +9,81 @@ RESULTS_DIR = BASE_DIR / "results"
 
 
 
+# Einstellungen je Verfahren. "surrogate_model" und "acquisition" waehlen das Verfahren,
+# alle uebrigen Eintraege werden vom Runner als Keyword-Argumente an die run_*()-Funktion
+# des Verfahrens uebergeben (siehe experiment_runner.select_and_run_variant).
+# Kernel der BoTorch-Verfahren (GP_BO, RP_BO, STABLEOPT, DRBO): "RBF_ARD", "Matern52_ARD"
+# oder "Matern32_ARD", jeweils mit dimensionsskaliertem LogNormal-Prior (Hvarfner et al. 2024).
 ALGORITHM_CONFIGS = {
 
     "GP_BO": {
         "surrogate_model": "GP_BO",
         "acquisition": "EI",
-        "kernel": "Matern52",
+        "kernel": "RBF_ARD",
+        "beta": 2.0,                    # nur fuer UCB/LCB
+        "num_restarts": 10,             # optimize_acqf
+        "raw_samples": 512,
     },
 
     "PROBO": {
         "surrogate_model": "PROBO",
         "acquisition": "GLCB",
-        "kernel": "Matern32",           # uncertainty_aware_bo.matern ist Matern-3/2
-        "prior_set_width": 0.5,
+        "kernel": "Matern32",           # "Matern32" oder "RBF" (uncertainty_aware_bo)
+        "c": 50.0,                      # Imprecision-Parameter
+        "length_scale": 1.0,
+        "outputscale": 1.0,
+        "prior_mean_max": 5.0,          # Prior-Mittelwert-Menge M in [-5, 5]
+        "n_prior_means": 250,           # Anzahl M-Kandidaten je Vorzeichen
+        "tau": 1.0,                     # Gewicht des Varianzterms
+        "rho": 1.0,                     # Gewicht der Credal-Set-Breite (nur GLCB)
+        "focus_points": 1000,           # Focus Search (Rodemann & Augustin 2024)
+        "focus_maxit": 5,
+        "focus_restarts": 5,
     },
 
     "RP_BO": {
-            "surrogate_model": "RP_BO",
-            "acquisition": "EI",                 # wie GP_BO, nur Ausreisser-Likelihood anders
-            "kernel": "Matern52",
-            "beta": 2.0,
-        },
+        "surrogate_model": "RP_BO",
+        "acquisition": "EI",            # wie GP_BO, nur Ausreisser-Likelihood anders
+        "kernel": "RBF_ARD",
+        "beta": 2.0,                    # nur fuer UCB/LCB
+        "num_restarts": 10,
+        "raw_samples": 512,
+    },
 
-    "STABLEOPT": {  
+    "STABLEOPT": {
         "surrogate_model": "STABLEOPT",
-        "acquisition": "UCB",                # robuste Min-Max-UCB (Bogunovic et al. 2018)
-        "kernel": "Matern52",
+        "acquisition": "UCB",           # robuste Min-Max-UCB (Bogunovic et al. 2018)
+        "kernel": "RBF_ARD",
         "beta": 2.0,
+        "epsilon": None,                # Stabilitaetsradius; None = 1% der Suchraumbreite
+        "n_x_candidates": 256,
+        "n_delta_candidates": 32,
     },
 
     "DRBO": {
         "surrogate_model": "DRBO",
-        "acquisition": "UCB",                # distributionally robust UCB (Kirschner et al. 2020)
-        "kernel": "Matern52",
-        "ambiguity_metric": "MMD",
-        "mmd_kernel": "RBF",
+        "acquisition": "UCB",           # distributionally robust UCB (Kirschner et al. 2020), MMD mit RBF-Kernel
+        "kernel": "RBF_ARD",
+        "beta": 2.0,
+        "context_dim": 1,               # letzte Spalten von x = Kontext
+        "n_context_candidates": 15,
+        "n_x_candidates": 200,
+        "mmd_lengthscale": 1.0,
+        "delta": 0.1,                   # Konfidenz fuer den MMD-Radius (Lemma 3)
     },
 
     "AIRBO": {
         "surrogate_model": "AIRBO",
-        "acquisition": "UCB",                # UCB auf dem MMD-GP (Yang et al. 2023)
-        "kernel": "MMD",
-        "nystrom_rank": 100,
+        "acquisition": "UCB",           # UCB auf dem MMD-GP (Yang et al. 2023)
+        "beta": 2.0,
+        "noise_std": None,              # Eingabeunsicherheit; None = 1% der Suchraumbreite
+        "n_cloud_samples": 50,
+        "use_nystrom": True,
+        "sub_samp_size": 20,            # Nystroem-Rang h
+        "mmd_length_scale": 1.0,
+        "mmd_alpha": 1.0,
+        "noise_var": 1e-6,
+        "n_x_candidates": 200,
     },
 }
 
@@ -77,8 +110,8 @@ DIMENSIONS = [2,
 INSTANCES = [1]                                                                                              # Bleibt bei 1, da die Benchmark-Funktionen nur eine Instanz haben
 
 N_START_SAMPLES = 5
-N_WIEDERHOLUNG = 10
-EVALUATION_BUDGET = 100                                   # Auswertungen gesamt, inkl. Startpunkte
+N_WIEDERHOLUNG = 30
+EVALUATION_BUDGET = 101                                   # Auswertungen gesamt, inkl. Startpunkte
 N_ITERATIONS = EVALUATION_BUDGET - N_START_SAMPLES        # BO-Iterationen pro Lauf
 MASTER_SEED = 42
 

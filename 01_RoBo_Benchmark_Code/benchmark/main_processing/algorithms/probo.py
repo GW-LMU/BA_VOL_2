@@ -6,7 +6,7 @@ from preprocessing import config
 from main_processing.algorithms.uncertainty_aware_bo import BayesOptimizer, matern, rbf
 
 
-# Kernel-Name aus config.ALGORITHM_CONFIGS -> Kernel-Funktion
+# Kernel-Name aus config.ALGORITHM_CONFIGS["PROBO"] -> Kernel-Funktion
 _KERNELS = {"Matern32": matern, "RBF": rbf}
 
 
@@ -48,9 +48,12 @@ def focus_search(af_batch, lower_bound, upper_bound, dim, rng,
 
 def run_imprecise_gausian_prozess(train_X, train_Y, dim, acquisition_func,
                                    lower_bound=config.BOUNDS[0], upper_bound=config.BOUNDS[1],
-                                   kernel=config.ALGORITHM_CONFIGS["PROBO"]["kernel"], c=50.0, length_scale=1.0, outputscale=1.0,
-                                   focus_points=1000, focus_maxit=5, focus_restarts=5,
-                                   prior_offset=None, rng=None):
+                                   prior_offset=None, rng=None,
+                                   *, kernel, c, length_scale, outputscale, prior_mean_max, n_prior_means,
+                                   tau, rho, focus_points, focus_maxit, focus_restarts):
+    # kernel, c, ..., focus_restarts: aus config.ALGORITHM_CONFIGS["PROBO"]
+    # prior_mean_max, n_prior_means: Prior-Mittelwert-Menge M in [-prior_mean_max, prior_mean_max]
+    # tau, rho: Gewichte von Varianzterm und Credal-Set-Breite in der Akquisition
     # rng: np.random.Generator fuer die Focus Search (reproduzierbar, vom Runner pro Wiederholung)
     # focus_*: Einstellungen der Focus Search, siehe focus_search()
     # prior_offset: float (Szenario prior_error) oder None
@@ -90,15 +93,16 @@ def run_imprecise_gausian_prozess(train_X, train_Y, dim, acquisition_func,
         length_scale=length_scale,
         outputscale=outputscale,
         dim=dim,
+        prior_mean_max=prior_mean_max,
+        n_prior_means=n_prior_means,
     )
 
     # 2) Akquisitionsfunktion abfragen und passend waehlen (vektorisierte Varianten,
     #    identische Formeln wie bo.UCB / bo.PROBO)
     if acquisition_func == "LCB":
-        af_batch = bo.UCB_batch
+        af_batch = lambda X: bo.UCB_batch(X, tau=tau)
     elif acquisition_func == "GLCB":
-        af_batch = bo.PROBO_batch
-        # Hier mit festen tau=1.0, rho=1.0
+        af_batch = lambda X: bo.PROBO_batch(X, tau=tau, rho=rho)
     else:
         raise ValueError(
             f"Unbekannte Akquisitionsfunktion fuer Imprecise_GausianProzess_Rodemann: {acquisition_func}"
@@ -146,8 +150,10 @@ def run_imprecise_gausian_prozess(train_X, train_Y, dim, acquisition_func,
         "length_scale": float(length_scale),
         "outputscale": float(outputscale),
         "c": float(c),
-        "tau": 1.0,
-        "rho": 1.0 if acquisition_func == "GLCB" else None,
+        "prior_mean_max": float(prior_mean_max),
+        "n_prior_means": int(n_prior_means),
+        "tau": float(tau),
+        "rho": float(rho) if acquisition_func == "GLCB" else None,
         "jitter": 1e-8,
         "af_optimizer": "focus_search",
         "focus_points": int(focus_points),
