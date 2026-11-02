@@ -30,11 +30,11 @@ def run_relevance_pursuit(train_X, train_Y, dim, acquisition_func,
     Fuehrt die robuste Relevance-Pursuit-GP-Variante fuer eine Iteration aus:
     1) RobustRelevancePursuitSingleTaskGP fitten (erkennt Ausreisser automatisch
        ueber eine datenpunktspezifische Rauschvarianz, siehe Ament et al. 2024)
-    2) passende Akquisitionsfunktion anhand von acquisition_func waehlen ("EI", "UCB", "LCB")
+    2) passende Akquisitionsfunktion anhand von acquisition_func waehlen ("EI", "LCB")
     3) naechsten Punkt per optimize_acqf vorschlagen (Zufall ueber den torch-Seed des Runners)
 
     train_X : torch.double, shape [n, dim]
-    train_Y : torch.double, shape [n, 1] (Maximierungs-Konvention, y = -f)
+    train_Y : torch.double, shape [n, 1] (Minimierungs-Konvention, y = f)
     prior_offset : float (Szenario prior_error) oder None
     kernel, beta, num_restarts, raw_samples : aus config.ALGORITHM_CONFIGS["RP_BO"]
 
@@ -59,11 +59,9 @@ def run_relevance_pursuit(train_X, train_Y, dim, acquisition_func,
     mll = ExactMarginalLogLikelihood(model.likelihood, model)
     fit_gpytorch_mll(mll)
 
-    # 2) Akquisitionsfunktion abfragen und passend waehlen
+    # 2) Akquisitionsfunktion abfragen und passend waehlen (Minimierung, wie GP_BO)
     if acquisition_func == "EI":
-        acqf = LogExpectedImprovement(model, best_f=train_Y.max())
-    elif acquisition_func == "UCB":
-        acqf = UpperConfidenceBound(model, beta=beta, maximize=True)
+        acqf = LogExpectedImprovement(model, best_f=train_Y.min(), maximize=False)
     elif acquisition_func == "LCB":
         acqf = UpperConfidenceBound(model, beta=beta, maximize=False)
     else:
@@ -86,7 +84,7 @@ def run_relevance_pursuit(train_X, train_Y, dim, acquisition_func,
         "mean_fixed": prior_offset is not None,
         "y_standardize_mean": float(model.outcome_transform.means.detach().reshape(-1)[0]),
         "y_standardize_std": float(model.outcome_transform.stdvs.detach().reshape(-1)[0]),
-        "acq_beta": beta if acquisition_func in ("UCB", "LCB") else None,
+        "acq_beta": beta if acquisition_func == "LCB" else None,
         "acq_num_restarts": num_restarts,
         "acq_raw_samples": raw_samples,
     }

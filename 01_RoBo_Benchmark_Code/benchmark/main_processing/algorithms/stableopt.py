@@ -7,9 +7,12 @@ Mean-Konstante wird wie bei GP_BO eingefroren.
 
 import numpy as np
 import torch
+from botorch.acquisition import AcquisitionFunction, UpperConfidenceBound
 from botorch.models import SingleTaskGP
 from botorch.models.transforms import Normalize, Standardize
 from botorch.fit import fit_gpytorch_mll
+from botorch.optim import optimize_acqf
+from botorch.utils.transforms import t_batch_mode_transform
 from gpytorch.mlls import ExactMarginalLogLikelihood
 
 from preprocessing import config
@@ -20,55 +23,63 @@ from main_processing.algorithms.gp_bo import (
 )
 
 
-def sample_ball(center, epsilon, n_samples, lower_bound, upper_bound, rng):
-    """
-    Zieht n_samples Punkte aus der euklidischen Kugel mit Radius epsilon um `center`
-    (Delta_epsilon(x) aus Bogunovic et al. 2018), beschraenkt auf die Suchraumgrenzen.
-    """
-    dim = center.shape[0]
-    directions = rng.normal(size=(n_samples, dim))
-    norms = np.linalg.norm(directions, axis=1, keepdims=True)
-    directions = directions / np.clip(norms, 1e-12, None)
-    radii = epsilon * rng.uniform(0.0, 1.0, size=(n_samples, 1)) ** (1.0 / dim)
-    points = center[None, :] + directions * radii
-    return np.clip(points, lower_bound, upper_bound)
+def sample_delta_set(dim, epsilon, n_samples, norm, rng):
+    # Feste Stoerungsmenge als Diskretisierung von Delta_eps:
+    # delta = 0, Achsenpunkte +-eps*e_i, halb Rand (Ecken bzw. Kugeloberflaeche), halb innen
+    n_boundary = n_samples // 2
+    n_inner = n_samples - n_boundary
+    axis = epsilon * np.vstack([np.eye(dim), -np.eye(dim)])
+
+    if norm == "linf":                    # eps-Wuerfel, wie Metrik M3
+        boundary = epsilon * rng.choice([-1.0, 1.0], size=(n_boundary, dim))
+        inner = rng.uniform(-epsilon, epsilon, size=(n_inner, dim))
+    elif norm == "l2":                    # eps-Kugel
+        directions = rng.normal(size=(n_samples, dim))
+        directions /= np.clip(np.linalg.norm(directions, axis=1, keepdims=True), 1e-12, None)
+        radii = rng.uniform(0.0, 1.0, size=(n_inner, 1)) ** (1.0 / dim)
+        boundary = epsilon * directions[:n_boundary]
+        inner = epsilon * radii * directions[n_boundary:]
+    else:
+        raise ValueError(f"Unbekannte Norm fuer Delta_eps: {norm}")
+
+    return np.vstack([np.zeros((1, dim)), axis, boundary, inner])
+
+
+class RobustLCB(AcquisitionFunction):
+    # max_j lcb(x + delta_j), negiert, damit optimize_acqf (maximiert) argmin_x findet.
+    # x + delta wird auf den Suchraum geschnitten.
+
+    def __init__(self, model, beta, deltas, lower_bound, upper_bound):
+        super().__init__(model=model)
+        self.beta_sqrt = beta ** 0.5
+        self.register_buffer("deltas", torch.as_tensor(deltas, dtype=torch.double))
+        self.lower_bound = lower_bound
+        self.upper_bound = upper_bound
+
+    @t_batch_mode_transform(expected_q=1)
+    def forward(self, X):
+        # X: b x 1 x d -> b x m x d, alle Stoerungen je Kandidat in einem Aufruf
+        points = (X + self.deltas).clamp(self.lower_bound, self.upper_bound)
+        posterior = self.model.posterior(points)
+        mean = posterior.mean.squeeze(-1)
+        std = posterior.variance.clamp_min(1e-12).sqrt().squeeze(-1)
+        lcb = mean - self.beta_sqrt * std
+        return -lcb.max(dim=-1).values
 
 
 def run_stable_opt(train_X, train_Y, dim, acquisition_func,
                     lower_bound=config.BOUNDS[0], upper_bound=config.BOUNDS[1],
                     prior_offset=None, rng=None,
-                    *, kernel, epsilon, beta, n_x_candidates, n_delta_candidates):
-    """
-    Fuehrt eine Iteration des STABLE OPT-Algorithmus aus (Bogunovic et al. 2018,
-    "Adversarially Robust Optimization with Gaussian Processes", Algorithm 1):
+                    *, kernel, epsilon, norm, beta, n_delta_candidates,
+                    num_restarts, raw_samples):
 
-        x~_t = argmax_x  min_{delta in Delta_eps(x)}  ucb_{t-1}(x + delta)      (13)
-        delta_t = argmin_{delta in Delta_eps(x~_t)}  lcb_{t-1}(x~_t + delta)     (Zeile 3)
-        query: x~_t + delta_t
-
-    Delta_eps(x) ist die euklidische epsilon-Kugel um x (d(x,x')=||x-x'||_2), geschnitten
-    mit dem Suchraum. Da die verschachtelte Min-Max-Optimierung auf kontinuierlichem X
-    im Allgemeinen nicht exakt loesbar ist (siehe Paper, Abschnitt 3), wird sie hier per
-    Kandidaten-Sampling approximiert, analog zum num_restarts/raw_samples-Vorgehen der
-    uebrigen Surrogatmodelle in diesem Projekt.
-
-    train_X : torch.double, shape [n, dim]
-    train_Y : torch.double, shape [n, 1] (Maximierungs-Konvention, y = -f)
-    dim     : int, Dimension des Suchraums
-    prior_offset : float (Szenario prior_error) oder None
-    rng     : np.random.Generator fuer das Kandidaten-Sampling (vom Runner pro Wiederholung)
-    epsilon : Stabilitaetsradius (None: 1% der Suchraumbreite)
-    kernel, epsilon, beta, n_x_candidates, n_delta_candidates : aus config.ALGORITHM_CONFIGS["STABLEOPT"]
-
-    Rueckgabe: (next_x, acq_value, model_info); acq_value ist der ucb-Wert von x~_t
-    """
-    if acquisition_func != "UCB":
+    if acquisition_func != "LCB":
         raise ValueError(
             f"STABLE OPT verwendet intern feste (ucb,lcb)-Konfidenzbaender; "
             f"unbekannte/inkompatible Akquisitionsfunktion: {acquisition_func}")
 
-    if epsilon is None:
-        epsilon = 0.01 * (upper_bound - lower_bound)
+    if epsilon is None:                   # gleiche Stoerung wie Metrik M3
+        epsilon = config.METRIC_EPSILON
 
     bounds = torch.tensor(
         [[lower_bound] * dim, [upper_bound] * dim], dtype=torch.double
@@ -90,95 +101,61 @@ def run_stable_opt(train_X, train_Y, dim, acquisition_func,
     fit_gpytorch_mll(mll)
 
     rng = np.random.default_rng() if rng is None else rng
+    deltas = sample_delta_set(dim, epsilon, n_delta_candidates, norm, rng)
 
-    def ucb_lcb(points_np):
-        points = torch.as_tensor(points_np, dtype=torch.double)
-        with torch.no_grad():
-            posterior = model.posterior(points)
-            mean = posterior.mean.squeeze(-1)
-            std = posterior.variance.clamp_min(1e-12).sqrt().squeeze(-1)
-        beta_sqrt = beta ** 0.5
-        
-        ucb = (mean + beta_sqrt * std).numpy()
+    # 2) x~_t = argmin_x max_j lcb_{t-1}(x + delta_j)
+    # Startpunkte: raw_samples Zufallspunkte + Trainingspunkte, die num_restarts besten
+    # werden in optimize_acqf lokal verfeinert (gleiche Einstellungen wie GP_BO)
+    robust_lcb = RobustLCB(model, beta, deltas, lower_bound, upper_bound)
+    raw = torch.as_tensor(rng.uniform(lower_bound, upper_bound, size=(raw_samples, dim)),
+                          dtype=torch.double)
+    pool = torch.cat([raw, train_X.to(torch.double)]).unsqueeze(1)       # N x 1 x d
+    with torch.no_grad():
+        pool_values = torch.cat([robust_lcb(chunk) for chunk in pool.split(256)])
+    initial = pool[pool_values.topk(min(num_restarts, len(pool))).indices]
 
-        lcb = (mean - beta_sqrt * std).numpy()
-        return ucb, lcb
+    x_tilde, neg_robust_lcb = optimize_acqf(
+        robust_lcb, bounds=bounds, q=1, num_restarts=len(initial),
+        batch_initial_conditions=initial,
+    )
+    x_tilde = x_tilde.squeeze(0).detach()
 
-    # 2) x~_t = argmax_x min_{delta in Delta_eps(x)} ucb_{t-1}(x+delta)  (Kandidaten-Sampling)
-    x_candidates = rng.uniform(lower_bound, upper_bound, size=(n_x_candidates, dim))
+    # 3) delta_t = argmax_{delta in Delta_eps(x~_t)} ucb_{t-1}(x~_t + delta)
+    ucb = UpperConfidenceBound(model, beta=beta, maximize=True)
+    perturbed = (x_tilde + torch.as_tensor(deltas, dtype=torch.double)).clamp(lower_bound, upper_bound)
+    with torch.no_grad():
+        ucb_values = ucb(perturbed.unsqueeze(1))
+    query_point = perturbed[ucb_values.argmax()]
+    worst_ucb = float(ucb_values.max())
 
-    best_stable_ucb = -np.inf
-    x_tilde = None
-    for x in x_candidates:
-        perturbed = sample_ball(x, epsilon, n_delta_candidates, lower_bound, upper_bound, rng)
-        ucb_vals, _ = ucb_lcb(perturbed)
-        stable_ucb = ucb_vals.min()
-        if stable_ucb  > best_stable_ucb:
-            best_stable_ucb = stable_ucb
-            x_tilde = x
+    if norm == "linf":
+        # eps-Wuerfel um x~_t geschnitten mit X ist ein Quader -> direkt optimierbar
+        box = torch.stack([(x_tilde - epsilon).clamp_min(lower_bound),
+                           (x_tilde + epsilon).clamp_max(upper_bound)])
+        box_point, box_ucb = optimize_acqf(
+            ucb, bounds=box, q=1, num_restarts=num_restarts, raw_samples=raw_samples,
+        )
+        if float(box_ucb) > worst_ucb:
+            query_point, worst_ucb = box_point.squeeze(0), float(box_ucb)
 
-    # 3) delta_t = argmin_{delta in Delta_eps(x~_t)} lcb_{t-1}(x~_t + delta)
-    perturbed_final = sample_ball(x_tilde, epsilon, n_delta_candidates, lower_bound, upper_bound, rng)
-    _, lcb_vals = ucb_lcb(perturbed_final)
-    delta_idx = np.argmin(lcb_vals)
-    query_point = perturbed_final[delta_idx]
-
-    next_x = torch.as_tensor(query_point, dtype=torch.double)
-    acq_value = torch.as_tensor(best_stable_ucb, dtype=torch.double)
+    next_x = query_point.detach()
+    acq_value = (-neg_robust_lcb).detach()      # robuster lcb-Wert von x~_t
 
     hyperparameters = get_hyperparameters(model, prior_offset, kernel)
     hyperparameters.update({
         "acq_beta": beta,
         "epsilon": float(epsilon),
+        "norm": norm,
         "x_tilde": x_tilde.tolist(),      # robuster Kandidat (Empfehlung laut Paper)
-        "n_x_candidates": n_x_candidates,
-        "n_delta_candidates": n_delta_candidates,
+        "robust_ucb": worst_ucb,
+        "n_delta_candidates": len(deltas),
+        "acq_num_restarts": num_restarts,
+        "acq_raw_samples": raw_samples,
     })
     return next_x, acq_value, {
         "posterior_mean": posterior_mean_fn(model),
         "posterior_std": posterior_std_fn(model),
         "hyperparameters": hyperparameters,
+        # Empfehlungsregel ROBUST im Runner: x~_T = argmin_t max_delta ucb_{t-1}(x~_t + delta)
+        "robust_recommendation": {"x": x_tilde.numpy().astype(np.float64), "score": worst_ucb},
     }
-
-
-"""
-StableOpt: Notizen
-
-Idee des Verfahrens (Bogunovic et al. 2018)
-
-Gesucht ist ein Punkt x, der auch dann noch gut ist, wenn er um bis zu ε verschoben wird (Störung δ mit ‖δ‖ ≤ ε).
-Schritt 1 (robuster Kandidat): Für jedes x wird der schlechteste UCB-Wert in seiner ε-Umgebung bestimmt. Gewählt wird das x, bei dem dieser Wert am höchsten ist:
-x̃ = argmax_x min_δ UCB(x+δ)
-Schritt 2 (Auswertungspunkt): Innerhalb der ε-Umgebung von x̃ wird die Störung δ mit dem niedrigsten LCB-Wert gewählt:
-δ = argmin_δ LCB(x̃+δ)
-Ausgewertet wird x̃ + δ, nicht x̃ selbst. So wird gezielt geprüft, ob x̃ wirklich robust ist.
-
-Umsetzung im Code (Näherung)
-
-Nicht jedes x lässt sich exakt prüfen. Deshalb werden Kandidaten gezogen:
-256 zufällige x-Kandidaten im Suchraum
-pro Kandidat 32 zufällige Punkte in der ε-Kugel, um den schlechtesten UCB-Wert zu schätzen
-Der schlechteste Fall wird dadurch nur geschätzt und fällt tendenziell zu optimistisch aus.
-
-Problem bei der Bewertung (Simple Regret)
-
-Der Benchmark bewertet die ausgewerteten Punkte, also x̃ + δ.
-Diese Punkte sind absichtlich ungünstig gewählt: Dort ist LCB minimal, das Modell also am pessimistischsten.
-Deshalb schneidet StableOpt beim Simple Regret systematisch schlechter ab. Das heißt nicht, dass jeder Punkt der schlechteste ist, sondern dass die Kennzahl nicht misst, was StableOpt optimiert.
-Empfehlung aus dem Paper:
-Als Ergebnis wird x̃T = argmax_t minδ LCB(x̃_t+δ) empfohlen, also der Kandidat, dessen schlechtester Fall am höchsten ist.
-Bewertet wird der robuste Regret: max_x minδ f(x+δ) − minδ f(x̃_T+δ)
-
-Offene Punkte (To-do)
-
-Seed setzen, damit die Läufe reproduzierbar sind. Bisher ist der Zufallsgenerator ohne Seed.
-Das Kandidaten-Sampling durch optimize_acqf ersetzen, mit einer festen δ-Menge und denselben Einstellungen wie GP-EI (num_restarts/raw_samples).
-ε an das Rauschen NOISE_SIGMA anpassen. Bisher ist ε = 0,1, das Rauschen hat aber σ = 0,2.
-x̃ zusätzlich zurückgeben und eine robuste Kennzahl speichern.
-
-Korrektur zu deinem Text:
-
-Ausgewertet wird der Punkt mit dem schlechtesten LCB-Wert in der Umgebung von x̃, nicht der mit dem schlechtesten UCB-Wert. Der schlechteste UCB-Wert wird nur für die Auswahl von x̃ gebraucht.
-Der Simple Regret ist deshalb nicht „immer der schlechteste Wert“, sondern systematisch zu pessimistisch für StableOpt.
- 
-"""

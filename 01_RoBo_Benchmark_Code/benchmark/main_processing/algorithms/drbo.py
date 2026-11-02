@@ -33,9 +33,10 @@ def _mmd_gram_matrix(context_candidates, mmd_lengthscale):
     # Hier MMD +  Tranfomation in Kernl GP (Kirschner et al. 2020, Sec. 2)
 
 
-def _solve_worst_case_weights(ucb_values, w_ref, M, epsilon):
-    
-    n = len(ucb_values)
+def _solve_worst_case_weights(lcb_values, w_ref, M, epsilon):
+    # Minimierung: ungünstigste Kontextverteilung = die mit dem GROESSTEN
+    # erwarteten lcb innerhalb der MMD-Kugel um w_ref
+    n = len(lcb_values)
 
     constraints = [
         {"type": "eq", "fun": lambda w: np.sum(w) - 1.0},
@@ -44,7 +45,7 @@ def _solve_worst_case_weights(ucb_values, w_ref, M, epsilon):
     bounds = [(0.0, 1.0)] * n
 
     res = scipy.optimize.minimize(
-        lambda w: w @ ucb_values,
+        lambda w: -(w @ lcb_values),
         w_ref.copy(),
         method="SLSQP",
         bounds=bounds,
@@ -66,14 +67,15 @@ def run_drbo(train_X, train_Y, dim, acquisition_func,
 
     1. Empirische Kontextverteilung P_hat_t aus den bisher beobachteten Kontexten berechnen
     2. MMD-Unsicherheitsradius eps_t = (2 + sqrt(2*log(1/delta))) / sqrt(t-1)  (Lemma 3)
-    3. Fuer jedes Kandidaten-x: w_ucb_x ueber das konvexe Programm bestimmen (worst-case
-       Gewichtung der Kontext-Kandidaten unter dem UCB-Modell)
-    4. x_t = argmax_x <w_ucb_x, ucb_x>
-    5. naechster Kontext wird aus der worst-case-Verteilung w_ucb_{x_t} gezogen
+    3. Fuer jedes Kandidaten-x: w_lcb_x ueber das konvexe Programm bestimmen (worst-case
+       Gewichtung der Kontext-Kandidaten unter dem LCB-Modell)
+    4. x_t = argmin_x <w_lcb_x, lcb_x>
+    5. naechster Kontext wird aus der worst-case-Verteilung w_lcb_{x_t} gezogen
+    (Minimierungs-Form; das Paper formuliert fuer Maximierung mit ucb/argmax.)
        (Simulator-Setting-Approximation, da die Umgebung den echten Kontext vorgibt)
 
     train_X : torch.double, shape [n, dim]
-    train_Y : torch.double, shape [n, 1] (Maximierungs-Konvention, y = -f)
+    train_Y : torch.double, shape [n, 1] (Minimierungs-Konvention, y = f)
     dim     : int, Dimension des Gesamtraums (Kontrollvariablen + Kontextvariablen)
     prior_offset : float (Szenario prior_error) oder None
     rng     : np.random.Generator fuer Kandidaten und Kontext-Ziehung (vom Runner pro Wiederholung)
@@ -83,10 +85,10 @@ def run_drbo(train_X, train_Y, dim, acquisition_func,
     """
 
     # Hier prüfen ob richtige Acqistionsfunktion gewählt worden ist
-    # ("UCB" = distributionally robust UCB-Akquisition, siehe config)
-    if acquisition_func != "UCB":
+    # ("LCB" = distributionally robust LCB-Akquisition, siehe config)
+    if acquisition_func != "LCB":
         raise ValueError(
-            f"DRBO verwendet intern eine feste, MMD-robuste UCB-Konstruktion; "
+            f"DRBO verwendet intern eine feste, MMD-robuste LCB-Konstruktion; "
             f"unbekannte/inkompatible Akquisitionsfunktion: {acquisition_func}"
         )
     # Hier prüfen ob die dim  der Contextverteilung richtig ist 
@@ -115,7 +117,7 @@ def run_drbo(train_X, train_Y, dim, acquisition_func,
     mll = ExactMarginalLogLikelihood(model.likelihood, model)
     fit_gpytorch_mll(mll)
 
-    # Hier fitte ich das Modell damit ich die  Define (ucbtx)j := ˆft(x,cj) + βtσt(x,cj) bekomme
+    # Hier fitte ich das Modell damit ich die  Define (lcbtx)j := ˆft(x,cj) - βtσt(x,cj) bekomme
     # Fitten über RKHS Regression 
 
     rng = np.random.default_rng() if rng is None else rng
@@ -144,11 +146,11 @@ def run_drbo(train_X, train_Y, dim, acquisition_func,
     # MMD-Kernel-Gram-Matrix ueber die Kontext-Kandidaten
     M = _mmd_gram_matrix(context_candidates, mmd_lengthscale)
 
-    # 3)+4) fuer jedes Kandidaten-x den worst-case-gewichteten UCB-Wert bestimmen
+    # 3)+4) fuer jedes Kandidaten-x den worst-case-gewichteten LCB-Wert bestimmen
     x_candidates = rng.uniform(lower_bound, upper_bound, size=(n_x_candidates, control_dim))
     n_c = context_candidates.shape[0]
 
-    best_val = -np.inf
+    best_val = np.inf
     best_x = None
     best_w = None
 
@@ -159,12 +161,12 @@ def run_drbo(train_X, train_Y, dim, acquisition_func,
             posterior = model.posterior(xc_tensor)
             mean = posterior.mean.squeeze(-1).numpy()
             std = posterior.variance.clamp_min(1e-12).sqrt().squeeze(-1).numpy()
-            ucb = mean + (beta ** 0.5) * std
+            lcb = mean - (beta ** 0.5) * std
 
-            w_worst = _solve_worst_case_weights(ucb, w_ref, M, epsilon_t)
-            value = w_worst @ ucb
+            w_worst = _solve_worst_case_weights(lcb, w_ref, M, epsilon_t)
+            value = w_worst @ lcb
 
-            if value > best_val:
+            if value < best_val:
                 best_val = value
                 best_x = x
                 best_w = w_worst

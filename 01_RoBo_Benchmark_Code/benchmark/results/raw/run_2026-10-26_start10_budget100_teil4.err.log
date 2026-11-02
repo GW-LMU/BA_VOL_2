@@ -1,0 +1,34 @@
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Because you specified `batch_initial_conditions` larger than required `num_restarts`, optimization will not be retried with new initial conditions and will proceed with the current solution. Suggested remediation: Try again with different `batch_initial_conditions`, don't provide `batch_initial_conditions`, or increase `num_restarts`.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Because you specified `batch_initial_conditions` larger than required `num_restarts`, optimization will not be retried with new initial conditions and will proceed with the current solution. Suggested remediation: Try again with different `batch_initial_conditions`, don't provide `batch_initial_conditions`, or increase `num_restarts`.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Because you specified `batch_initial_conditions` larger than required `num_restarts`, optimization will not be retried with new initial conditions and will proceed with the current solution. Suggested remediation: Try again with different `batch_initial_conditions`, don't provide `batch_initial_conditions`, or increase `num_restarts`.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\Download - ICH\Bachelorarbeit_Version_2\01_RoBo_Benchmark_Code\benchmark\postprocessing\excel_export.py:56: DtypeWarning: Columns (0: x_rec_ROBUST) have mixed types. Specify dtype option on import or set low_memory=False.
+  df = pd.read_csv(csv_path, usecols=[c for c in header if c not in JSON_COLUMNS])

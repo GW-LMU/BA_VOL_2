@@ -30,7 +30,10 @@ GROUP_COLUMNS = [
 VALUE_COLUMNS = [
     "next_f_true", "best_observed_so_far", "best_true_so_far",
     "simple_regret", "instantaneous_regret", "cumulative_regret",
-    "M1", "M2", "M3", "M4", "M5", "M6", "iter_time_s",
+    # Robustheitsmetriken je Empfehlungsregel (BO = best observed, POM = posterior mean,
+    # ROBUST = robuster Kandidat, nur STABLEOPT)
+    *[f"M{i}_{rule}" for rule in ("BO", "POM", "ROBUST") for i in range(1, 7)],
+    "iter_time_s",
 ]
 
 EXCEL_MAX_ROWS = 1_048_575  # ohne Kopfzeile

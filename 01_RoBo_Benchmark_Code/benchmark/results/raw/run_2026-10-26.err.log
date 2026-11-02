@@ -1,0 +1,804 @@
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\jit\_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .'), OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed on the second try, after generating a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .'), OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .'), OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed on the second try, after generating a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed on the second try, after generating a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .'), OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\fit.py:241: OptimizationWarning: `scipy_minimize` terminated with status OptimizationStatus.FAILURE, displaying original message from `scipy.optimize.minimize`: ABNORMAL: 
+  result = optimizer(mll, closure=closure, **optimizer_kwargs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\optim\optimize.py:844: RuntimeWarning: Optimization failed in `gen_candidates_scipy` with the following warning(s):
+[OptimizationWarning('Optimization failed within `scipy.optimize.minimize` with status 2 and message ABNORMAL: .')]
+Trying again with a new set of initial conditions.
+  return _optimize_acqf_batch(opt_inputs=opt_inputs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\fit.py:241: OptimizationWarning: `scipy_minimize` terminated with status OptimizationStatus.FAILURE, displaying original message from `scipy.optimize.minimize`: ABNORMAL: 
+  result = optimizer(mll, closure=closure, **optimizer_kwargs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\fit.py:241: OptimizationWarning: `scipy_minimize` terminated with status OptimizationStatus.FAILURE, displaying original message from `scipy.optimize.minimize`: ABNORMAL: 
+  result = optimizer(mll, closure=closure, **optimizer_kwargs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\fit.py:241: OptimizationWarning: `scipy_minimize` terminated with status OptimizationStatus.FAILURE, displaying original message from `scipy.optimize.minimize`: ABNORMAL: 
+  result = optimizer(mll, closure=closure, **optimizer_kwargs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\fit.py:241: OptimizationWarning: `scipy_minimize` terminated with status OptimizationStatus.FAILURE, displaying original message from `scipy.optimize.minimize`: ABNORMAL: 
+  result = optimizer(mll, closure=closure, **optimizer_kwargs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\fit.py:241: OptimizationWarning: `scipy_minimize` terminated with status OptimizationStatus.FAILURE, displaying original message from `scipy.optimize.minimize`: ABNORMAL: 
+  result = optimizer(mll, closure=closure, **optimizer_kwargs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\fit.py:241: OptimizationWarning: `scipy_minimize` terminated with status OptimizationStatus.FAILURE, displaying original message from `scipy.optimize.minimize`: ABNORMAL: 
+  result = optimizer(mll, closure=closure, **optimizer_kwargs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\fit.py:241: OptimizationWarning: `scipy_minimize` terminated with status OptimizationStatus.FAILURE, displaying original message from `scipy.optimize.minimize`: ABNORMAL: 
+  result = optimizer(mll, closure=closure, **optimizer_kwargs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\fit.py:241: OptimizationWarning: `scipy_minimize` terminated with status OptimizationStatus.FAILURE, displaying original message from `scipy.optimize.minimize`: ABNORMAL: 
+  result = optimizer(mll, closure=closure, **optimizer_kwargs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\fit.py:241: OptimizationWarning: `scipy_minimize` terminated with status OptimizationStatus.FAILURE, displaying original message from `scipy.optimize.minimize`: ABNORMAL: 
+  result = optimizer(mll, closure=closure, **optimizer_kwargs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\fit.py:241: OptimizationWarning: `scipy_minimize` terminated with status OptimizationStatus.FAILURE, displaying original message from `scipy.optimize.minimize`: ABNORMAL: 
+  result = optimizer(mll, closure=closure, **optimizer_kwargs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\fit.py:241: OptimizationWarning: `scipy_minimize` terminated with status OptimizationStatus.FAILURE, displaying original message from `scipy.optimize.minimize`: ABNORMAL: 
+  result = optimizer(mll, closure=closure, **optimizer_kwargs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\fit.py:241: OptimizationWarning: `scipy_minimize` terminated with status OptimizationStatus.FAILURE, displaying original message from `scipy.optimize.minimize`: ABNORMAL: 
+  result = optimizer(mll, closure=closure, **optimizer_kwargs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\fit.py:241: OptimizationWarning: `scipy_minimize` terminated with status OptimizationStatus.FAILURE, displaying original message from `scipy.optimize.minimize`: ABNORMAL: 
+  result = optimizer(mll, closure=closure, **optimizer_kwargs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\fit.py:241: OptimizationWarning: `scipy_minimize` terminated with status OptimizationStatus.FAILURE, displaying original message from `scipy.optimize.minimize`: ABNORMAL: 
+  result = optimizer(mll, closure=closure, **optimizer_kwargs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\fit.py:241: OptimizationWarning: `scipy_minimize` terminated with status OptimizationStatus.FAILURE, displaying original message from `scipy.optimize.minimize`: ABNORMAL: 
+  result = optimizer(mll, closure=closure, **optimizer_kwargs)
+C:\Users\gabri\AppData\Local\Programs\Python\Python311\Lib\site-packages\botorch\fit.py:241: OptimizationWarning: `scipy_minimize` terminated with status OptimizationStatus.FAILURE, displaying original message from `scipy.optimize.minimize`: ABNORMAL: 
+  result = optimizer(mll, closure=closure, **optimizer_kwargs)

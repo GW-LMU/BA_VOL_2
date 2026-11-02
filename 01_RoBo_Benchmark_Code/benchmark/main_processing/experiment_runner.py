@@ -29,15 +29,23 @@ METRIC_COLUMNS = {
     "cvar": "M6",
 }
 
+# Empfehlungsregeln, die pro Iteration parallel ausgewertet werden -> Spaltensuffix
+#   BO  = best observed:  Trainingspunkt mit kleinstem beobachteten f_obs
+#   POM = posterior mean: Trainingspunkt mit bestem Posterior-Mittelwert des Modells
+#   ROBUST = robuster Kandidat des Verfahrens (nur STABLEOPT, sonst leer)
+REC_RULES = ["BO", "POM", "ROBUST"]
+
 
 # Ergebnisspalten pro Iteration (nach den Experimentparametern), feste Reihenfolge fuer die CSV
 RESULT_COLUMNS = [
     "iteration", "next_x", "next_y", "next_f_true", "acq_value",
     "best_observed_so_far", "best_true_so_far", "simple_regret",
-    "instantaneous_regret", "cumulative_regret", "x_rec",
-    *METRIC_COLUMNS.values(),
+    "instantaneous_regret", "cumulative_regret",
+    # x_rec_BO, M1_BO ... M6_BO, x_rec_POM, M1_POM ... M6_POM
+    *[col for rule in REC_RULES
+      for col in (f"x_rec_{rule}", *[f"{m}_{rule}" for m in METRIC_COLUMNS.values()])],
     # Zusatzinfos, um Modell und Empfehlung nachtraeglich rekonstruieren zu koennen
-    "prior_offset", "n_train", "rec_rule", "mu_train", "sigma_train", "hyperparameters",
+    "prior_offset", "n_train", "mu_train", "sigma_train", "hyperparameters",
     "iter_time_s",
     # Startdaten - nur in der Zeile mit iteration == 1 gefuellt
     "start_X", "start_f_obs", "start_f_true",
@@ -105,6 +113,8 @@ def select_and_run_variant(surrogate_model, acquisition_func, train_X, train_Y, 
                              lower_bound, upper_bound,
                              prior_offset=prior_offset, rng=rng,
                              **algo_params)
+
+    
     elif surrogate_model == "AIRBO":
         from main_processing.algorithms import airbo
         return airbo.run_airbo(train_X, train_Y, dim, acquisition_func,
@@ -129,7 +139,7 @@ def run_and_select_scenario(scenario, intensity):
         raise ValueError(f"Unbekanntes Szenario: {scenario}")
 
 
-# Gibt den ROHEN BBOB-Wert f zurueck (COCO minimiert). Negiert wird nur im Runner.
+# Gibt den ROHEN BBOB-Wert f zurueck (COCO minimiert, die Pipeline ebenso).
 def select_evaluate_scenario(next_x, scenario, intensity, objective, rng):
     if scenario == "nominal":
         return evaluate_nominal_function(next_x, intensity, objective, rng)
@@ -155,6 +165,8 @@ def run_single_experiment(experiment):
     intensity = experiment["intensity"]
     repetition = experiment["repetition"]                       # Das ist der Tensor Block
     n_start_samples = experiment["n_start_samples"]
+    # budget = Auswertungen gesamt INKL. Startpunkte (config.EVALUATION_BUDGET),
+    # also budget - n_start_samples BO-Iterationen (= config.N_ITERATIONS)
     n_iterations = experiment["budget"] - n_start_samples
 
     lower_bound, upper_bound = config.BOUNDS
@@ -175,23 +187,25 @@ def run_single_experiment(experiment):
         # Metriken laufen immer auf der wahren Funktion
         benchmark = BBOBBenchmark(problem, f_opt=experiment["f_opt"], bounds=config.BOUNDS)
 
-        # Trainingsdaten fuer das Modell laden - Starttensor und ggf. Prior-Fehler aus dem Szenario
+        # Trainingsdaten fuer das Modell laden 
+        # EInmal der Initiale TEnsor und bei BEdard auch die Prior Einstellungen dazu 
         tensor, prior_offsets = run_and_select_scenario(scenario, intensity)
 
         # Prior-Fehler dieser Wiederholung (bleibt ueber alle Iterationen gleich).
         # Bei nominal / stochastic_input ist prior_offsets None -> kein Prior-Fehler
         prior_offset = None if prior_offsets is None else float(prior_offsets[repetition])
 
-        # train_X: unverrauschte Startpunkte
-        # f_obs:   beobachtete f-Werte (bei stochastic_input an x + xi)
-        # f_true:  wahre f-Werte an den gespeicherten x (nur fuer die Auswertung)
+        # train_X: unverrauschte Startpunkte werden aus dem Tensor gezogen je nach benötigert Größe und Dimension
         train_X_np = np.array(tensor[repetition, :n_start_samples, :dimension], dtype=np.float64)
-        f_obs = np.array([
-            select_evaluate_scenario(x, scenario, intensity, objective, noise_rng)
-            for x in train_X_np
-        ])
-        f_true = np.array([objective(x) for x in train_X_np])
 
+        # f_obs:   beobachtete f-Werte (bei stochastic_input an x + xi)
+        f_obs = np.array([select_evaluate_scenario(x, scenario, intensity, objective, noise_rng)
+                            for x in train_X_np])
+
+        # f_true:  wahre f-Werte an den gespeicherten x (nur fuer die Auswertung)
+        f_true = np.array([objective(x) for x in train_X_np])
+        
+##################################################################################################################################
         # Startdaten fuer die Rekonstruktion (werden nur in Iteration 1 gespeichert)
         start_data = {
             "start_X": _to_json(train_X_np),
@@ -201,12 +215,15 @@ def run_single_experiment(experiment):
 
         rows = []
         cumulative_regret = 0.0
+        best_robust = None                # bisher bester robuster Kandidat {"x", "score"}
+
+##################################################################################################################################     
         for iteration in range(1, n_iterations + 1):
             iter_start = time.time()
 
-            # BoTorch maximiert -> Surrogat sieht y = -f
+            # Minimierung: Surrogat sieht y = f (nicht negiert)
             train_X = torch.as_tensor(train_X_np, dtype=torch.double)
-            train_Y = torch.as_tensor(-f_obs, dtype=torch.double).unsqueeze(-1)
+            train_Y = torch.as_tensor(f_obs, dtype=torch.double).unsqueeze(-1)
 
             # Naechste Eingabe bestimmen, abhaengig von Surrogatmodell und Akquisitionsfunktion
             next_x, acq_value, model_info = select_and_run_variant(
@@ -222,18 +239,39 @@ def run_single_experiment(experiment):
             mu_train = posterior_mean(train_X_np) if posterior_mean is not None else None
             sigma_train = posterior_std(train_X_np) if posterior_std is not None else None
 
-            # Empfohlener Punkt x_rec: Trainingspunkt mit dem besten BEOBACHTETEN Wert
-            # (kleinstes f_obs), fuer alle Verfahren gleich (Rodemann & Augustin: best
-            # incumbent). next_x ist kein Kandidat, da sein Wert noch nicht beobachtet ist.
-            x_rec = train_X_np[int(np.argmin(f_obs))]
-            rec_rule = "best_observed"
+            # Empfohlene Punkte, beide nur unter den Trainingspunkten (next_x ist kein
+            # Kandidat, da sein Wert noch nicht beobachtet ist):
+            #   BO:  bester BEOBACHTETER Wert (kleinstes f_obs, Rodemann & Augustin: best incumbent)
+            #   POM: bester Posterior-Mittelwert (kleinstes mu_train, Modell sieht y = f)
+            x_recs = {"BO": train_X_np[int(np.argmin(f_obs))]}
+            if mu_train is not None:
+                x_recs["POM"] = train_X_np[int(np.argmin(mu_train))]
+
+            #   ROBUST: StableOpt-Empfehlung (Bogunovic et al. 2018), x~_T = argmin_t
+            #   max_delta ucb_{t-1}(x~_t + delta) ueber alle bisherigen robusten Kandidaten.
+            #   x~_t braucht keine Beobachtung, daher ist der aktuelle Kandidat schon dabei.
+            robust = model_info.get("robust_recommendation")
+            if robust is not None and (best_robust is None or robust["score"] < best_robust["score"]):
+                best_robust = robust
+            if best_robust is not None:
+                x_recs["ROBUST"] = np.asarray(best_robust["x"], dtype=np.float64)
 
             # Funktionswert abhaengig vom Szenario (roher f-Wert, ggf. verrauscht)
             next_y = select_evaluate_scenario(next_x_np, scenario, intensity, objective, noise_rng)
             next_f_true = objective(next_x_np)
 
-            # Robustheitsmetriken des empfohlenen Punkts auf der wahren Funktion
-            metrics = compute_all_metrics(x_rec, benchmark, config)
+            # Robustheitsmetriken der empfohlenen Punkte auf der wahren Funktion.
+            # Die Metriken sind deterministisch -> bei gleichem Punkt wiederverwenden
+            metrics_bo = compute_all_metrics(x_recs["BO"], benchmark, config)
+            rec_columns = {}
+            for rule, x_rec in x_recs.items():
+                if np.array_equal(x_rec, x_recs["BO"]):
+                    metrics = metrics_bo
+                else:
+                    metrics = compute_all_metrics(x_rec, benchmark, config)
+                rec_columns[f"x_rec_{rule}"] = x_rec.tolist()
+                rec_columns.update({f"{METRIC_COLUMNS[name]}_{rule}": value
+                                    for name, value in metrics.items()})
 
             # Neue Daten anhaengen: UNVERRAUSCHTES x, beobachteter Wert
             train_X_np = np.vstack([train_X_np, next_x_np.reshape(1, -1)])
@@ -258,13 +296,11 @@ def run_single_experiment(experiment):
                 "simple_regret": float(np.min(f_true) - experiment["f_opt"]),
                 "instantaneous_regret": instantaneous_regret,
                 "cumulative_regret": cumulative_regret,
-                "x_rec": x_rec.tolist(),
-                **{METRIC_COLUMNS[name]: value for name, value in metrics.items()},
-                # mu_train/sigma_train: Modell (Skala y = -f) an den n_train Trainingspunkten,
+                **rec_columns,
+                # mu_train/sigma_train: Modell (Skala y = f) an den n_train Trainingspunkten,
                 # Reihenfolge = Startpunkte, dann next_x der Iterationen 1 ... iteration-1
                 "prior_offset": prior_offset,
                 "n_train": n_train,
-                "rec_rule": rec_rule,
                 "mu_train": _to_json(mu_train, TRAIN_SIG_DIGITS),
                 "sigma_train": _to_json(sigma_train, TRAIN_SIG_DIGITS),
                 "hyperparameters": _to_json(model_info.get("hyperparameters")),

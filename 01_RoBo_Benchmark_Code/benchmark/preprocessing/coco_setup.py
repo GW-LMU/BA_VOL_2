@@ -15,6 +15,8 @@ def get_suite():
     # Eine BBOB-Suite fuer den ganzen Prozess (ohne Observer -> keine COCO-Logs)
     return cocoex.Suite("bbob", "", "")
 
+
+# FUnktion die sich basiernd auf den suote"bbob" die Funktion Holt 
 # Basiend auf den Suite holt wir sich die Benachmarkfunktion geholt 
 def get_problem(funktion, dimension, instance=1, suite=None):
     suite = get_suite() if suite is None else suite
@@ -23,7 +25,8 @@ def get_problem(funktion, dimension, instance=1, suite=None):
     )
 
 # Holt sich das fopt der Benchmarkfunktion (BBOB) und gibt es zurück.
-# Idee von Claude, sich das fopt einmalig über dat-Datei zu holen, da es nicht direkt von cocoex bereitgestellt wird.
+# Idee von Claude und große Teile von Claude, sich das fopt einmalig über dat-Datei zu holen, 
+# da es nicht direkt von cocoex bereitgestellt wird.
 @lru_cache(maxsize=None)
 def get_bbob_fopt_exact(funktion, dimension, instance=1):
     suite = cocoex.Suite("bbob", "", "")
@@ -58,7 +61,8 @@ def get_bbob_fopt_exact(funktion, dimension, instance=1):
     return fopt_raw                 ### WIchtig hier : Dieser Wert ist ein Minimum und kein Maximun  => muss nich gegiert werden 
 
 
+
+# Funktion zum Auswerten der Benachmarkfunktione  
 def evaluate_bbob_function(x, problem):
-    # Roher BBOB-Wert f(x) (Minimierung) fuer EINEN Punkt
     x_numpy = np.asarray(x, dtype=float).reshape(-1)
     return float(problem(x_numpy))

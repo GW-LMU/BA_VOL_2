@@ -13,29 +13,31 @@ from preprocessing import seed_manager as sdm
 # Surrogatmodells: Der konstante Prior-Mittelwert m(x) = c des GP wird bewusst
 # falsch gesetzt und beim Fitten eingefroren (kein Empirical Bayes).
 #
+# Die Kernel-Hyperparameter (Laengenskalen, Rauschen, bei PROBO Outputscale) werden
+# dagegen bei GP_BO, DRBO, StableOpt, RP_BO und PROBO weiterhin per Marginal
+# Likelihood gefittet - und zwar unter dem falschen Prior. Der Fit kann den
+# Mittelwertfehler dadurch teilweise auffangen; gemessen wird also der Effekt von
+# delta inklusive Anpassung des Kernels (realistischer Anwendungsfall), nicht delta
+# bei festem Kernel. (PROBO: probo.fit_kernel_hyperparameters, Schalter
+# "fit_hyperparameters" in config.) Ausnahme AIRBO: Dessen MMD-Kernel ist fest
+# (mmd_length_scale, noise_var aus config), dort wirkt delta bei festem Kernel.
+#
 # Die Intensitaet (config.PRIOR_SIGMAS) ist der Abstand von c zum empirischen
 # Mittelwert der Startstichprobe, gemessen in deren Standardabweichungen
 # (das Surrogat arbeitet mit Standardize, daher entspricht 1.0 genau 1 Std.).
 #
-# Richtung (BoTorch maximiert, das Surrogat sieht y = -f):
-#   +1 = optimistisch  -> Modell erwartet in unbekannten Regionen gute Werte
-#   -1 = pessimistisch -> Modell erwartet in unbekannten Regionen schlechte Werte
+# Richtung (Minimierung, das Surrogat sieht y = f, kleiner = besser):
+#   -1 = optimistisch  -> Modell erwartet in unbekannten Regionen gute (kleine) Werte
+#   +1 = pessimistisch -> Modell erwartet in unbekannten Regionen schlechte (grosse) Werte
 
 
 def build_prior_offsets(intensity, direction="random"):
-    """
-    Erzeugt pro Wiederholung den Fehler des Prior-Mittelwerts
-    (in standardisierten y-Einheiten).
-
-    direction:
-        "random"      -> Vorzeichen pro Wiederholung zufaellig (+/-), mit eigenem Seed
-        "optimistic"  -> immer +intensity
-        "pessimistic" -> immer -intensity
-    """
-
     offsets = np.empty(config.N_WIEDERHOLUNG, dtype=np.float64)
 
     for i in range(config.N_WIEDERHOLUNG):
+        # Gezogen wird wie frueher (+1 = optimistisch), damit jede Wiederholung
+        # dieselbe Richtung behaelt wie in der alten Maximierungs-Version.
+        # Fuer y = f wird das Vorzeichen unten umgedreht.
         if direction == "random":
             rng = sdm.get_rng("prior", i)  # eigener Seed pro Wiederholung
             sign = rng.choice([-1.0, 1.0])
@@ -46,7 +48,7 @@ def build_prior_offsets(intensity, direction="random"):
         else:
             raise ValueError(f"Unbekannte Prior-Richtung: {direction}")
 
-        offsets[i] = sign * intensity
+        offsets[i] = -sign * intensity      # optimistisch -> niedriger Prior-Mittelwert
 
     return offsets
 

@@ -18,9 +18,9 @@ ALGORITHM_CONFIGS = {
 
     "GP_BO": {
         "surrogate_model": "GP_BO",
-        "acquisition": "EI",
+        "acquisition": "LCB",             # "EI" oder "LCB" (Minimierung)
         "kernel": "RBF_ARD",
-        "beta": 2.0,                    # nur fuer UCB/LCB
+        "beta": 2.0,                    # nur fuer LCB
         "num_restarts": 10,             # optimize_acqf
         "raw_samples": 512,
     },
@@ -29,9 +29,18 @@ ALGORITHM_CONFIGS = {
         "surrogate_model": "PROBO",
         "acquisition": "GLCB",
         "kernel": "Matern32",           # "Matern32" oder "RBF" (uncertainty_aware_bo)
-        "c": 50.0,                      # Imprecision-Parameter
-        "length_scale": 1.0,
-        "outputscale": 1.0,
+        # Imprecision-Parameter. c = 1 statt 50 (Default in uncertainty_aware_bo): Auf standardisierten
+        # y ist die Credal-Set-Breite 2c/S_k * |w(x)| dann in derselben Groessenordnung
+        # wie Mittelwert- und Varianzterm. Bei c = 50 dominiert sie um Faktor 50-100,
+        # GLCB wird fast reine Exploration und ueberdeckt einen Prior-Fehler delta.
+        "c": 1.0,
+        # True: length_scale/outputscale werden in jeder Iteration per Marginal
+        # Likelihood gefittet, wie bei GP_BO/DRBO/StableOpt/RP_BO (im Szenario
+        # prior_error unter dem eingefrorenen falschen Prior-Mittelwert).
+        # False: die festen Werte unten werden verwendet (alte Version).
+        "fit_hyperparameters": True,
+        "length_scale": 1.0,            # nur bei fit_hyperparameters = False
+        "outputscale": 1.0,             # nur bei fit_hyperparameters = False
         "prior_mean_max": 5.0,          # Prior-Mittelwert-Menge M in [-5, 5]
         "n_prior_means": 250,           # Anzahl M-Kandidaten je Vorzeichen
         "tau": 1.0,                     # Gewicht des Varianzterms
@@ -43,26 +52,28 @@ ALGORITHM_CONFIGS = {
 
     "RP_BO": {
         "surrogate_model": "RP_BO",
-        "acquisition": "EI",            # wie GP_BO, nur Ausreisser-Likelihood anders
+        "acquisition": "LCB",            # wie GP_BO, nur Ausreisser-Likelihood anders
         "kernel": "RBF_ARD",
-        "beta": 2.0,                    # nur fuer UCB/LCB
+        "beta": 2.0,                    # nur fuer LCB
         "num_restarts": 10,
         "raw_samples": 512,
     },
 
     "STABLEOPT": {
         "surrogate_model": "STABLEOPT",
-        "acquisition": "UCB",           # robuste Min-Max-UCB (Bogunovic et al. 2018)
+        "acquisition": "LCB",           # robuste Min-Max-LCB (Bogunovic et al. 2018, Minimierungs-Form)
         "kernel": "RBF_ARD",
         "beta": 2.0,
-        "epsilon": None,                # Stabilitaetsradius; None = 1% der Suchraumbreite
-        "n_x_candidates": 256,
-        "n_delta_candidates": 32,
+        "epsilon": None,                # Stabilitaetsradius; None = METRIC_EPSILON (wie M3)
+        "norm": "linf",                 # "linf" = eps-Wuerfel (wie M3), "l2" = eps-Kugel (Paper-Beispiel)
+        "n_delta_candidates": 64,       # Zufallspunkte der Stoerungsmenge (+ delta=0 und 2*dim Achsenpunkte)
+        "num_restarts": 10,             # optimize_acqf, wie GP_BO
+        "raw_samples": 512,
     },
 
     "DRBO": {
         "surrogate_model": "DRBO",
-        "acquisition": "UCB",           # distributionally robust UCB (Kirschner et al. 2020), MMD mit RBF-Kernel
+        "acquisition": "LCB",           # distributionally robust LCB (Kirschner et al. 2020, Minimierungs-Form), MMD mit RBF-Kernel
         "kernel": "RBF_ARD",
         "beta": 2.0,
         "context_dim": 1,               # letzte Spalten von x = Kontext
@@ -74,7 +85,7 @@ ALGORITHM_CONFIGS = {
 
     "AIRBO": {
         "surrogate_model": "AIRBO",
-        "acquisition": "UCB",           # UCB auf dem MMD-GP (Yang et al. 2023)
+        "acquisition": "LCB",           # LCB auf dem MMD-GP (Yang et al. 2023, Minimierungs-Form)
         "beta": 2.0,
         "noise_std": None,              # Eingabeunsicherheit; None = 1% der Suchraumbreite
         "n_cloud_samples": 50,
@@ -93,13 +104,13 @@ ALGORITHM_CONFIGS = {
 ALGORITHMS = ["GP_BO", 
               "PROBO", 
               #"RP_BO", 
-              #"STABLEOPT", 
+              "STABLEOPT", 
               #"DRBO", 
               #"AIRBO"
               ]
 
 
-FUNCTIONS = [1]
+FUNCTIONS = [16,20,24]
         # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]  
         #   [1,6,11,16,21]  # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
 DIMENSIONS = [2, 
@@ -109,9 +120,9 @@ DIMENSIONS = [2,
                                                                                                #    
 INSTANCES = [1]                                                                                              # Bleibt bei 1, da die Benchmark-Funktionen nur eine Instanz haben
 
-N_START_SAMPLES = 5
+N_START_SAMPLES = 10
 N_WIEDERHOLUNG = 30
-EVALUATION_BUDGET = 101                                   # Auswertungen gesamt, inkl. Startpunkte
+EVALUATION_BUDGET = 100                                # Auswertungen gesamt, inkl. Startpunkte
 N_ITERATIONS = EVALUATION_BUDGET - N_START_SAMPLES        # BO-Iterationen pro Lauf
 MASTER_SEED = 42
 

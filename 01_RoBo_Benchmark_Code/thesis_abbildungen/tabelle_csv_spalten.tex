@@ -1,0 +1,42 @@
+% Spaltengruppen der Ergebnis-CSV (Abschnitt 3.5.1)
+% Benoetigt in der Praeambel: \usepackage{booktabs,tabularx}
+\begin{table}[htbp]
+  \centering
+  \small
+  \caption{Spaltengruppen der Ergebnisdatei \texttt{results\_<Datum>.csv}. Jede Zeile entspricht einer Iteration eines Experiments.}
+  \label{tab:csv-spalten}
+  \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.6cm} >{\raggedright\arraybackslash}p{5.2cm} >{\raggedright\arraybackslash}X@{}}
+    \toprule
+    \textbf{Gruppe} & \textbf{Spalten} & \textbf{Inhalt} \\
+    \midrule
+    Experiment\-parameter
+      & \texttt{task\_id}, \texttt{algorithm}, \texttt{function}, \texttt{dimension}, \texttt{scenario}, \texttt{intensity}, \texttt{repetition}, \texttt{f\_opt},~\dots
+      & Einstellungen des Experiments aus dem Experimentplan, in jeder Zeile wiederholt \\
+    \addlinespace
+    Iterations\-werte
+      & \texttt{iteration}, \texttt{next\_x}, \texttt{next\_y}, \texttt{next\_f\_true}, \texttt{acq\_value}
+      & Vorgeschlagener Punkt, beobachteter und wahrer Funktionswert, Wert der Akquisitionsfunktion \\
+    \addlinespace
+    Regret
+      & \texttt{best\_observed\_so\_far}, \texttt{best\_true\_so\_far}, \texttt{simple\_regret}, \texttt{instantaneous\_regret}, \texttt{cumulative\_regret}
+      & Bisher bester beobachteter und wahrer Wert, Regret-Größen relativ zu $f_{\mathrm{opt}}$ \\
+    \addlinespace
+    Empfehlungs\-punkte und Metriken
+      & \texttt{x\_rec\_<R>}, \texttt{M1\_<R>}, \dots, \texttt{M6\_<R>} \newline
+        mit $R \in \{\texttt{BO}, \texttt{POM}, \texttt{ROBUST}\}$
+      & Empfohlener Punkt je Empfehlungsregel und dessen Robustheitsmetriken M1--M6 \\
+    \addlinespace
+    Modell\-zustand
+      & \texttt{prior\_offset}, \texttt{n\_train}, \texttt{mu\_train}, \texttt{sigma\_train}, \texttt{hyperparameters}
+      & Prior-Fehler sowie Posterior-Mittelwert, -Standardabweichung und Hyperparameter an den Trainingspunkten (JSON) \\
+    \addlinespace
+    Startdaten
+      & \texttt{start\_X}, \texttt{start\_f\_obs}, \texttt{start\_f\_true}
+      & Startdesign mit beobachteten und wahren Werten, nur in Iteration~1 gefüllt (JSON) \\
+    \addlinespace
+    Laufzeit und Status
+      & \texttt{iter\_time\_s}, \texttt{status}, \texttt{error}
+      & Rechenzeit der Iteration in Sekunden; \texttt{ok} oder \texttt{error} mit Fehlermeldung \\
+    \bottomrule
+  \end{tabularx}
+\end{table}

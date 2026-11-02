@@ -1,0 +1,26 @@
+4050 Experimente geplant.
+4029 Experimente bereits vorhanden, 21 verbleiben.
+Rechne mit 10 Prozess(en) x 1 Thread(s) (12 logische Kerne verfuegbar).
+[1/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r17: ok (493.3s)
+[2/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r15: ok (493.9s)
+[3/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r10: ok (523.6s)
+[4/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r16: ok (549.1s)
+[5/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r09: ok (550.2s)
+[6/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r13: ok (556.6s)
+[7/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r12: ok (562.2s)
+[8/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r11: ok (563.4s)
+[9/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r14: ok (566.7s)
+[10/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r18: ok (585.6s)
+[11/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r19: ok (506.5s)
+[12/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r20: ok (516.3s)
+[13/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r27: ok (473.6s)
+[14/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r23: ok (506.0s)
+[15/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r21: ok (535.3s)
+[16/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r24: ok (506.7s)
+[17/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r26: ok (500.5s)
+[18/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r22: ok (518.8s)
+[19/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r25: ok (517.4s)
+[20/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r28: ok (495.0s)
+[21/21] STABLEOPT_f11_d10_i1_stochastic_input_level0.5_r29: ok (240.0s)
+Fertig: 1890 Zeilen, gespeichert in results/raw/results_2026-10-26_start10_budget100.csv
+Excel erstellt: results\raw\results_2026-10-26_start10_budget100.xlsx

@@ -127,10 +127,10 @@ def run_gaussian_process(train_X, train_Y, dim, acquisition_func, lower_bound, u
     mll = ExactMarginalLogLikelihood(model.likelihood, model)
     fit_gpytorch_mll(mll) 
 
+    # Minimierung (y = f): EI gegen das kleinste f, LCB = mu - sqrt(beta)*sigma.
+    # BoTorch rechnet bei maximize=False intern -LCB und maximiert das.
     if acquisition_func == "EI":
-        acqf = LogExpectedImprovement(model, best_f=train_Y.max())
-    elif acquisition_func == "UCB":
-        acqf = UpperConfidenceBound(model, beta=beta, maximize=True)
+        acqf = LogExpectedImprovement(model, best_f=train_Y.min(), maximize=False)
     elif acquisition_func == "LCB":
         acqf = UpperConfidenceBound(model, beta=beta, maximize=False)
     else:
@@ -144,7 +144,7 @@ def run_gaussian_process(train_X, train_Y, dim, acquisition_func, lower_bound, u
 
     hyperparameters = get_hyperparameters(model, prior_offset, kernel)
     hyperparameters.update({
-        "acq_beta": beta if acquisition_func in ("UCB", "LCB") else None,
+        "acq_beta": beta if acquisition_func == "LCB" else None,
         "acq_num_restarts": num_restarts,
         "acq_raw_samples": raw_samples,
     })

@@ -11,7 +11,8 @@ dieses Projekts passt). Diese Version implementiert den fachlichen Kern:
     Gl. 8/9): k_hat(P,Q) = exp(-alpha * MMD^2(P,Q))
   - Nystroem-Approximation zur Beschleunigung der MMD-Schaetzung (Sec. 3.2,
     Gl. 12), reduziert die Kosten von O(m^2) auf O(m*h) mit h << m
-  - GP-Posterior ueber diesen Kernel (Gl. 10/11) + UCB-Akquisition (Gl. 15)
+  - GP-Posterior ueber diesen Kernel (Gl. 10/11) + LCB-Akquisition (Gl. 15 in
+    Minimierungs-Form; das Paper maximiert die UCB)
 
 Wichtige Vereinfachung/Annahme gegenueber dem Paper: run_task() in core_bo.py
 liefert nur EXAKTE Beobachtungen (x_i, y_i), keine echte Eingabeunsicherheits-
@@ -107,11 +108,11 @@ def run_airbo(train_X, train_Y, dim, acquisition_func,
         2) MMD-Kernelmatrix ueber diese Wolken bilden (Gl. 8/9, optional per
            Nystroem-Approximation beschleunigt, Gl. 12)
         3) GP-Posterior ueber diesem Kernel bilden (Gl. 10/11)
-        4) fuer ein Kandidatenraster im Suchraum den UCB-Wert berechnen
-           (Gl. 15) und den besten Kandidaten zurueckgeben
+        4) fuer ein Kandidatenraster im Suchraum den LCB-Wert berechnen
+           (Gl. 15, Minimierungs-Form) und den besten (kleinsten) Kandidaten zurueckgeben
 
     train_X : torch.double, shape [n, dim]
-    train_Y : torch.double, shape [n, 1] (Maximierungs-Konvention, y = -f)
+    train_Y : torch.double, shape [n, 1] (Minimierungs-Konvention, y = f)
     dim     : int, Dimension des Suchraums
     prior_offset : float (Szenario prior_error) oder None
     rng     : np.random.Generator fuer Wolken, Nystroem und Kandidaten (vom Runner pro Wiederholung)
@@ -119,12 +120,12 @@ def run_airbo(train_X, train_Y, dim, acquisition_func,
                 (None: 1% der Suchraumbreite, analog epsilon in stableopt.py)
     noise_std, ..., use_nystrom : aus config.ALGORITHM_CONFIGS["AIRBO"]
 
-    Rueckgabe: (next_x, acq_value, model_info); acq_value ist der UCB-Wert auf der
+    Rueckgabe: (next_x, acq_value, model_info); acq_value ist der LCB-Wert auf der
     standardisierten Modellskala
     """
-    if acquisition_func != "UCB":
+    if acquisition_func != "LCB":
         raise ValueError(
-            f"AIRBO verwendet intern eine feste UCB-Akquisition auf dem MMD-GP-Posterior; "
+            f"AIRBO verwendet intern eine feste LCB-Akquisition auf dem MMD-GP-Posterior; "
             f"unbekannte/inkompatible Akquisitionsfunktion: {acquisition_func}"
         )
 
@@ -181,23 +182,23 @@ def run_airbo(train_X, train_Y, dim, acquisition_func,
         var = max(k_self - float(k_vec @ K_inv @ k_vec), 0.0)
         return mean, var
 
-    # 3)+4) Kandidatenraster bewerten: GP-Posterior (Gl. 10/11) + UCB (Gl. 15)
+    # 3)+4) Kandidatenraster bewerten: GP-Posterior (Gl. 10/11) + LCB (Gl. 15, Minimierung)
     x_candidates = rng.uniform(lower_bound, upper_bound, size=(n_x_candidates, dim))
 
-    best_ucb = -np.inf
+    best_lcb = np.inf
     best_x = None
     for x_cand in x_candidates:
         mean, var = cloud_posterior(x_cand, rng)
-        ucb = mean + offset + beta * np.sqrt(var)
+        lcb = mean + offset - beta * np.sqrt(var)
 
-        if ucb > best_ucb:
-            best_ucb = ucb
+        if lcb < best_lcb:
+            best_lcb = lcb
             best_x = x_cand
 
     next_x = torch.as_tensor(best_x, dtype=torch.double)
-    acq_value = torch.as_tensor(best_ucb, dtype=torch.double)
+    acq_value = torch.as_tensor(best_lcb, dtype=torch.double)
 
-    # Posterior fuer die Rekonstruktion im Runner (Skala y = -f). Eigener Seed,
+    # Posterior fuer die Rekonstruktion im Runner (Skala y = f). Eigener Seed,
     # damit posterior_mean und posterior_std dieselben Wolken verwenden und das
     # Protokollieren den Zufallsstrom des Verfahrens nicht veraendert.
     posterior_seed = int(rng.integers(2**32))

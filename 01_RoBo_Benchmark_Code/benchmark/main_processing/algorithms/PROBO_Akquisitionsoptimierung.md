@@ -1,7 +1,7 @@
 # PROBO: Optimierung der Akquisitionsfunktion
 
 ## Kurzfassung
-PROBO maximiert seine Akquisitionsfunktion (GLCB bzw. LCB) per **Focus Search**
+PROBO minimiert seine Akquisitionsfunktion (GLCB bzw. LCB) per **Focus Search**
 mit **1000 Punkten pro Runde, 5 Runden und 5 Restarts**. Das entspricht dem
 Optimierer, den Rodemann & Augustin (2024) in ihren Experimenten verwenden.
 
@@ -29,7 +29,7 @@ für r = 1 … restarts (5):
     für i = 1 … maxit (5):
         ziehe points (1000) Punkte per Latin Hypercube in der Box
         werte die Akquisitionsfunktion aus
-        merke den global besten Punkt
+        merke den global besten (kleinsten) Punkt
         verkleinere die Box um den besten Punkt dieser Runde:
             pro Dimension  lo = max(lo, x* − Breite/4),  hi = min(hi, x* + Breite/4)
 gib den global besten Punkt zurück
@@ -70,7 +70,7 @@ mlrMBO-Standardwert 5.
 - **Sprache:** Rodemann hat in R mit mlrMBO gerechnet, hier ist es ein Nachbau in
   Python. LHS kommt aus `scipy.stats.qmc.LatinHypercube`.
 - **Gleichstände:** Bei gleich guten Punkten wählt mlrMBO zufällig, hier wird der
-  erste genommen (`argmax`).
+  erste genommen (`argmin`).
 - **Dimension:** Das Paper betrachtet nur 1D. Für d > 1 wird dieselbe Focus Search
   ohne Änderung auf [lower, upper]^d angewendet. Die Punktzahl wird *nicht* mit
   d skaliert. Die Abdeckung des Suchraums wird mit steigender Dimension also
