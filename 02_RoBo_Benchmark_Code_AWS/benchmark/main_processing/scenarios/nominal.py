@@ -6,9 +6,9 @@ from scipy.stats import qmc
 from preprocessing import seed_manager as sdm
 from preprocessing import config
 
-
+# Wie im Paper Rodemann & Augustin
 def _latin_hypercube(d, seed):
-    # scipy >= 1.15 nimmt rng=, aeltere Versionen seed= (gleicher Zufallsstrom)
+    #
     generator = np.random.default_rng(seed)
     try:
         return qmc.LatinHypercube(d=d, scramble=True, rng=generator)
@@ -56,5 +56,5 @@ def evaluate_nominal_function(next_x, intensity, objective, rng):
 
 def run_nominal_function(scenario, intensity):
     tensor = build_tensor()
-    prior_offsets = None                  # kein Prior-Fehler
+    prior_offsets = None                  # kein Prior-Fehler da hier Nomiales Verfahren angwandr wird als Kontrollgruppe
     return tensor, prior_offsets

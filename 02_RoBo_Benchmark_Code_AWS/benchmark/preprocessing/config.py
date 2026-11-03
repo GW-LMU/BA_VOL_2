@@ -9,76 +9,121 @@ RESULTS_DIR = BASE_DIR / "results"
 
 
 
+# Einstellungen je Verfahren. "surrogate_model" und "acquisition" waehlen das Verfahren,
+# alle uebrigen Eintraege werden vom Runner als Keyword-Argumente an die run_*()-Funktion
+# des Verfahrens uebergeben (siehe experiment_runner.select_and_run_variant).
+# Kernel der BoTorch-Verfahren (GP_BO, RP_BO, STABLEOPT, DRBO): "RBF_ARD", "Matern52_ARD"
+# oder "Matern32_ARD", jeweils mit dimensionsskaliertem LogNormal-Prior (Hvarfner et al. 2024).
+# Surrogat-Kernel einheitlich Matern-3/2, damit Unterschiede nicht von der Kernel-Familie kommen.
+# Abweichungen (methodisch bedingt, in der Arbeit zu nennen):
+#   PROBO: Matern-3/2 isotrop (eine Laengenskala, kein ARD), ARD ist in probo.py nicht umgesetzt.
+#   AIRBO: Surrogat ist der MMD-Kernel ueber Punktwolken mit RBF-Basiskernel (Yang et al. 2023),
+#          als Kern des Verfahrens bewusst unveraendert.
+#   DRBO: mmd_lengthscale gehoert zum RBF-Kernel der MMD-Kugel ueber Kontextverteilungen,
+#         nicht zum Surrogat - das Surrogat nutzt "kernel" wie die anderen.
 ALGORITHM_CONFIGS = {
 
     "GP_BO": {
         "surrogate_model": "GP_BO",
-        "acquisition": "EI",
-        "kernel": "Matern52",
+        "acquisition": "LCB",             # "EI" oder "LCB" (Minimierung)
+        "kernel": "Matern32_ARD",
+        "beta": 2.0,                    # nur fuer LCB
+        "num_restarts": 10,             # optimize_acqf
+        "raw_samples": 512,
     },
 
     "PROBO": {
         "surrogate_model": "PROBO",
         "acquisition": "GLCB",
-        "kernel": "Matern32",           # uncertainty_aware_bo.matern ist Matern-3/2
-        "prior_set_width": 0.5,
+        "kernel": "Matern32",           # "Matern32" oder "RBF" (uncertainty_aware_bo); isotrop, kein ARD
+        # Imprecision-Parameter. c = 1 statt 50 (Default in uncertainty_aware_bo): Auf standardisierten
+        # y ist die Credal-Set-Breite 2c/S_k * |w(x)| dann in derselben Groessenordnung
+        # wie Mittelwert- und Varianzterm. Bei c = 50 dominiert sie um Faktor 50-100,
+        # GLCB wird fast reine Exploration und ueberdeckt einen Prior-Fehler delta.
+        "c": 1.0,
+        # True: length_scale/outputscale werden in jeder Iteration per Marginal
+        # Likelihood gefittet, wie bei GP_BO/DRBO/StableOpt/RP_BO (im Szenario
+        # prior_error unter dem eingefrorenen falschen Prior-Mittelwert).
+        # False: die festen Werte unten werden verwendet (alte Version).
+        "fit_hyperparameters": True,
+        "length_scale": 1.0,            # nur bei fit_hyperparameters = False
+        "outputscale": 1.0,             # nur bei fit_hyperparameters = False
+        "prior_mean_max": 5.0,          # Prior-Mittelwert-Menge M in [-5, 5]
+        "n_prior_means": 250,           # Anzahl M-Kandidaten je Vorzeichen
+        "tau": 1.0,                     # Gewicht des Varianzterms
+        "rho": 1.0,                     # Gewicht der Credal-Set-Breite (nur GLCB)
+        "focus_points": 1000,           # Focus Search (Rodemann & Augustin 2024)
+        "focus_maxit": 5,
+        "focus_restarts": 5,
     },
 
     "RP_BO": {
-            "surrogate_model": "RP_BO",
-            "acquisition": "Relvevance Pursuit",
-            "kernel": "Matern52",
-            "beta": 2.0,
-        },
+        "surrogate_model": "RP_BO",
+        "acquisition": "LCB",            # wie GP_BO, nur Ausreisser-Likelihood anders
+        "kernel": "Matern32_ARD",
+        "beta": 2.0,                    # nur fuer LCB
+        "num_restarts": 10,
+        "raw_samples": 512,
+    },
 
-    "STABLEOPT": {  
+    "STABLEOPT": {
         "surrogate_model": "STABLEOPT",
-        "acquisition": "STABLEOPT",
-        "kernel": "Matern52",
+        "acquisition": "LCB",           # robuste Min-Max-LCB (Bogunovic et al. 2018, Minimierungs-Form)
+        "kernel": "Matern32_ARD",
         "beta": 2.0,
+        "epsilon": None,                # Stabilitaetsradius; None = METRIC_EPSILON (wie M3)
+        "norm": "linf",                 # "linf" = eps-Wuerfel (wie M3), "l2" = eps-Kugel (Paper-Beispiel)
+        "n_delta_candidates": 64,       # Zufallspunkte der Stoerungsmenge (+ delta=0 und 2*dim Achsenpunkte)
+        "num_restarts": 10,             # optimize_acqf, wie GP_BO
+        "raw_samples": 512,
     },
 
     "DRBO": {
         "surrogate_model": "DRBO",
-        "acquisition": "DRBO",
-        "kernel": "Matern52",
-        "ambiguity_metric": "MMD",
-        "mmd_kernel": "RBF",
+        "acquisition": "LCB",           # distributionally robust LCB (Kirschner et al. 2020, Minimierungs-Form), MMD mit RBF-Kernel
+        "kernel": "Matern32_ARD",
+        "beta": 2.0,
+        "context_dim": 1,               # letzte Spalten von x = Kontext
+        "n_context_candidates": 15,
+        "n_x_candidates": 200,
+        "mmd_lengthscale": 1.0,
+        "delta": 0.1,                   # Konfidenz fuer den MMD-Radius (Lemma 3)
     },
 
     "AIRBO": {
         "surrogate_model": "AIRBO",
-        "acquisition": "AIRBO_UCB",
-        "kernel": "MMD",
-        "nystrom_rank": 100,
+        "acquisition": "LCB",           # LCB auf dem MMD-GP (Yang et al. 2023, Minimierungs-Form); Kernel fest MMD mit RBF-Basis
+        "beta": 2.0,
+        "noise_std": None,              # Eingabeunsicherheit P_x; None = stochastic_input-Intensitaet bzw. METRIC_SIGMA
+        "n_cloud_samples": 50,
+        "use_nystrom": True,
+        "sub_samp_size": 20,            # Nystroem-Rang h
+        "n_x_candidates": 200,
+        "fit_max_iter": 100,            # L-BFGS-Iterationen fuer die Hyperparameter (Laengenskalen, alpha, Outputscale, Rauschen)
     },
 }
 
 
 # Verfahren, die tatsaechlich gerechnet werden (muessen in ALGORITHM_CONFIGS stehen).
-# RP_BO, STABLEOPT, DRBO, AIRBO sind noch nicht implementiert (leere Module).
+# RP_BO, STABLEOPT, DRBO, AIRBO sind an die Pipeline angepasst, aber noch nicht aktiviert.
 ALGORITHMS = ["GP_BO", 
               "PROBO", 
-              #"RP_BO", 
-              #"STABLEOPT", 
-              #"DRBO", 
-              #"AIRBO"
+              "RP_BO", 
+              "STABLEOPT", 
+              "DRBO", 
+              "AIRBO"
               ]
 
 
-FUNCTIONS = [1]
-        # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]  
-        #   [1,6,11,16,21]  # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-DIMENSIONS = [2, 
-              5,
-              #10
-              ]   
+FUNCTIONS = [1, 6, 11, 16, 21]
+        
+DIMENSIONS = [2, 5,10]   
                                                                                                #    
 INSTANCES = [1]                                                                                              # Bleibt bei 1, da die Benchmark-Funktionen nur eine Instanz haben
 
-N_START_SAMPLES = 5
-N_WIEDERHOLUNG = 5
-EVALUATION_BUDGET = 100                                   # Auswertungen gesamt, inkl. Startpunkte
+N_START_SAMPLES = 10
+N_WIEDERHOLUNG = 1      # TEST (Schritt 5): fuer den Volllauf wieder auf 30 setzen
+EVALUATION_BUDGET = 100                                # Auswertungen gesamt, inkl. Startpunkte
 N_ITERATIONS = EVALUATION_BUDGET - N_START_SAMPLES        # BO-Iterationen pro Lauf
 MASTER_SEED = 42
 
@@ -86,12 +131,13 @@ MASTER_SEED = 42
 #   N_JOBS = 1  -> sequentiell (einfacher zum Debuggen)
 #   N_JOBS = 6  -> 6 Experimente gleichzeitig
 #   N_JOBS = -1 -> alle Kerne,  -2 -> alle bis auf einen, usw.
-N_JOBS = 6
+
+N_JOBS = 10
 THREADS_PER_JOB = 1                 # Torch/BLAS-Threads pro Prozess (1 vermeidet Ueberbelegung)
 
 PRIOR_SIGMAS = [0.0, 
                 0.5, 
-                1.0
+                2.0
                 ]
 
 

@@ -11,3 +11,8 @@ RoBo_Benchmark/.venv311/
 # generierte Daten (gross, reproduzierbar aus den Skripten)
 ROBO_Benchmark/data/
 RoBo_Benchmark/data/
+01_RoBo_Benchmark_Code/benchmark/results/raw/results_2026-10-26_start10_budget100.csv
+01_RoBo_Benchmark_Code/benchmark/results/raw/results_2026-10-27_f16_20_24.csv
+01_RoBo_Benchmark_Code/benchmark/results/raw/results_2026-10-26.csv
+01_RoBo_Benchmark_Code/benchmark/results/raw/results_2026-10-22_rep10_stableopt.csv
+01_RoBo_Benchmark_Code/benchmark/results/raw/results_2026-10-26_start10_budget100.xlsx

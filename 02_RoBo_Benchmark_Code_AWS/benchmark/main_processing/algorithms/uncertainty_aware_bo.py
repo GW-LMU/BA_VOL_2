@@ -70,7 +70,7 @@ class BayesOptimizer:
     """
 
     def __init__(self, x_obs, y_obs, y_obs_vars=None, kernel=matern, c=50.0,
-                 length_scale=1.0, outputscale=1.0, dim=1):
+                 length_scale=1.0, outputscale=1.0, dim=1, prior_mean_max=5.0, n_prior_means=250):
         """
         x_obs: array der beobachteten x-Werte (dim=1: shape (n,); dim>1: shape (n, dim))
         y_obs: array der beobachteten y-Werte
@@ -81,6 +81,7 @@ class BayesOptimizer:
         c: Imprecision-Parameter
         length_scale, outputscale: Kernel-Hyperparameter
         dim: Dimension des Suchraums
+        prior_mean_max, n_prior_means: Prior-Mittelwert-Kandidaten M in [-prior_mean_max, prior_mean_max]
         """
         self.dim = dim
         self.y_obs = np.array(y_obs)
@@ -108,7 +109,7 @@ class BayesOptimizer:
 
         # Prior-Mittelwert-Kandidaten
         rng = np.random.default_rng(42)
-        self.Ms = np.sort(rng.uniform(0, 5, 250))
+        self.Ms = np.sort(rng.uniform(0, prior_mean_max, n_prior_means))
         self.Ms_ = np.concatenate([self.Ms, -self.Ms])
 
         # worst-case Prior
@@ -212,6 +213,11 @@ class BayesOptimizer:
 
         Vorzeichen von mean_term analog zu UCB() an die Maximierungs-Konvention
         angepasst (+mu statt -mu).
+
+        Abweichung vom Paper (bewusst beibehalten): Definition 11 nutzt
+        tau * sqrt(Var), hier steht wie in Rodemanns Notebook
+        (homo_bo_compare_af.ipynb) die Varianz ohne Wurzel. Gilt ebenso fuer
+        UCB() und die _batch-Varianten. Siehe PROBO_Akquisitionsoptimierung.md.
         """
         kx = self.k_vec(x)
         mean_term = kx @ self.C_inv @ np.array(self.y_obs)
@@ -219,3 +225,45 @@ class BayesOptimizer:
         return mean_term + var_term + rho * self.mu_bounds_diff(x)
 
         # Nach Definition 11 im Paper
+
+    # ------------------------------------------------------------------
+    # Vektorisierte Varianten fuer die Akquisitionsoptimierung (Focus Search)
+    # ------------------------------------------------------------------
+    # Rechnen exakt dieselben Formeln wie UCB/PROBO/mu_bounds_diff oben, aber fuer
+    # viele Punkte auf einmal (eine Kernelmatrix statt einer Python-Schleife pro
+    # Punkt). Noetig, weil die Focus Search pro BO-Iteration
+    # restarts * maxit * points = 5 * 5 * 1000 = 25.000 Punkte auswertet.
+    # X: dim=1 -> shape (N,), dim>1 -> shape (N, dim). Rueckgabe: shape (N,).
+
+    def _kernel_terms(self, X):
+        """k(X) (N x n), k(x,x) (N,) und Standard-Posteriorvarianz-Anteil."""
+        K = self.kernel(X, self.x_obs)                     # (N, n)
+        # k(x,x): Matern/RBF sind stationaer -> fuer alle Punkte gleich (= outputscale)
+        kxx = np.full(len(X), self.kernel(X[:1], X[:1])[0, 0])
+        quad = np.sum((K @ self.C_inv) * K, axis=1)        # k(x)^T C^-1 k(x)
+        return K, kxx, quad
+
+    def mu_bounds_diff_batch(self, X):
+        """Vektorisiertes mu_bounds_diff (Breite des Credal-Sets)."""
+        K = self.kernel(X, self.x_obs)
+        one_minus = 1 - K @ self.s_k
+        term = self.s_k @ self.y_obs / self.S_k
+        if np.abs(term) > 1 + self.c / self.S_k:
+            return one_minus * (term + self.c / self.S_k - term / (self.c + self.S_k))
+        return 2 * self.c * np.abs(one_minus) / self.S_k
+
+    def UCB_batch(self, X, tau=1.0):
+        """Vektorisiertes UCB (= predict_posterior mit M=0, h=1)."""
+        K, kxx, quad = self._kernel_terms(X)
+        y_hat = (self.s_k @ self.y_obs) / (self.c + self.S_k)
+        mu = K @ self.C_inv @ (self.y_obs - y_hat) + y_hat
+        one_minus = 1 - K @ self.s_k
+        sigma2 = kxx - quad + one_minus ** 2 / (self.c + self.S_k)
+        return mu + tau * sigma2
+
+    def PROBO_batch(self, X, tau=1.0, rho=1.0):
+        """Vektorisiertes PROBO/GLCB."""
+        K, kxx, quad = self._kernel_terms(X)
+        mean_term = K @ self.C_inv @ self.y_obs
+        var_term = tau * (kxx - quad)
+        return mean_term + var_term + rho * self.mu_bounds_diff_batch(X)

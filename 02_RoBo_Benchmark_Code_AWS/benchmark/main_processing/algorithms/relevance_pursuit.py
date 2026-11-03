@@ -1,0 +1,71 @@
+import torch
+from botorch.models.robust_relevance_pursuit_model import RobustRelevancePursuitSingleTaskGP
+from botorch.models.transforms import Normalize, Standardize
+from botorch.fit import fit_gpytorch_mll
+from botorch.acquisition.analytic import LogExpectedImprovement, UpperConfidenceBound
+from botorch.optim import optimize_acqf
+from gpytorch.mlls import ExactMarginalLogLikelihood
+
+from preprocessing import config
+from main_processing.scenarios.prior_error import apply_prior_error
+from main_processing.algorithms.gp_bo import (
+    get_covar_module, posterior_mean_fn, posterior_std_fn,
+)
+
+
+def run_relevance_pursuit(train_X, train_Y, dim, acquisition_func,
+                          lower_bound=config.BOUNDS[0], upper_bound=config.BOUNDS[1],
+                          prior_offset=None, *, kernel, beta, num_restarts, raw_samples):
+    
+    bounds = torch.tensor([[lower_bound] * dim, [upper_bound] * dim], dtype=torch.double)
+
+    # 1) Modell (Inputs auf [0,1]^d normalisiert, Outputs standardisiert). Die
+    #    Likelihood bleibt die Ausreisser-Likelihood des Modells (SparseOutlierNoise)
+    model = RobustRelevancePursuitSingleTaskGP(
+        train_X, train_Y,
+        covar_module=get_covar_module(kernel, ard_num_dims=dim),
+        input_transform=Normalize(d=dim, bounds=bounds),
+        outcome_transform=Standardize(m=1),
+    )
+
+    if prior_offset is not None:          # nur im Szenario prior_error
+        apply_prior_error(model, prior_offset)
+
+    mll = ExactMarginalLogLikelihood(model.likelihood, model)
+    fit_gpytorch_mll(mll)
+
+    # 2) Akquisitionsfunktion abfragen und passend waehlen (Minimierung, wie GP_BO)
+    if acquisition_func == "EI":
+        acqf = LogExpectedImprovement(model, best_f=train_Y.min(), maximize=False)
+    elif acquisition_func == "LCB":
+        acqf = UpperConfidenceBound(model, beta=beta, maximize=False)
+    else:
+        raise ValueError(f"Unbekannte Akquisitionsfunktion fuer Relevance Pursuit: {acquisition_func}")
+
+    # 3) naechsten Punkt vorschlagen
+    next_x, acq_value = optimize_acqf(
+        acqf, bounds=bounds, q=1, num_restarts=num_restarts, raw_samples=raw_samples,
+    )
+
+    noise_covar = model.likelihood.noise_covar
+    hyperparameters = {
+        "kernel": kernel,
+        "lengthscale": model.covar_module.lengthscale.detach().reshape(-1).tolist(),
+        "noise": float(noise_covar.base_noise.noise.detach().reshape(-1)[0]),
+        # Indizes der als Ausreisser erkannten Trainingspunkte + deren Zusatzvarianz
+        "outlier_support": [int(i) for i in noise_covar.support],
+        "outlier_rho": noise_covar.rho.detach().reshape(-1).tolist(),
+        "mean_constant": float(model.mean_module.constant.detach()),
+        "mean_fixed": prior_offset is not None,
+        "y_standardize_mean": float(model.outcome_transform.means.detach().reshape(-1)[0]),
+        "y_standardize_std": float(model.outcome_transform.stdvs.detach().reshape(-1)[0]),
+        "acq_beta": beta if acquisition_func == "LCB" else None,
+        "acq_num_restarts": num_restarts,
+        "acq_raw_samples": raw_samples,
+    }
+
+    return next_x.squeeze(0), acq_value, {
+        "posterior_mean": posterior_mean_fn(model),
+        "posterior_std": posterior_std_fn(model),
+        "hyperparameters": hyperparameters,
+    }

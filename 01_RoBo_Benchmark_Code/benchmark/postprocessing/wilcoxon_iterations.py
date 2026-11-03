@@ -1,8 +1,10 @@
 # postprocessing/
 #
-# Wilcoxon-Vorzeichen-Rang-Test in JEDER Iteration statt nur in der letzten.
+# Wilcoxon-Vorzeichen-Rang-Test an festen Checkpoints statt nur in der letzten
+# Iteration (CHECKPOINTS, vorab festgelegt). Liegt ein Checkpoint hinter der
+# letzten Iteration eines Settings, wird stattdessen die letzte Iteration getestet.
 #
-# Pro Setting (Szenario x Intensitaet x Funktion x Dimension) und Iteration t
+# Pro Setting (Szenario x Intensitaet x Funktion x Dimension) und Checkpoint t
 # wird das Referenzverfahren (PROBO) gegen jedes andere Verfahren getestet:
 #     d_r(t) = log10(m_PROBO,r(t)) - log10(m_B,r(t))      (gepaart ueber Wiederholung r)
 # Test, Pratt-Behandlung der Nulldifferenzen und r_rb wie in statistics.py.
@@ -12,9 +14,9 @@
 # Oberhalb des grauen Bands ist PROBO signifikant besser, unterhalb signifikant
 # schlechter, im Band kein signifikanter Unterschied (p >= 0.05).
 #
-# Mehrfachtests: Holm-Korrektur ueber die Vergleiche (Gegner) einer Iteration
-# innerhalb eines Settings. Ueber die Iterationen wird NICHT korrigiert -
-# die Verlaeufe sind beschreibend (wann tritt ein Unterschied auf?).
+# Mehrfachtests: Holm-Korrektur ueber alle Tests eines Settings, also ueber
+# Checkpoints x Gegner (z. B. 5 x 2 = 10 Tests). Durch die wenigen, vorab
+# festgelegten Checkpoints bleibt die Korrektur scharf genug.
 
 import sys
 from pathlib import Path
@@ -33,10 +35,10 @@ OPPONENT_COLORS = {"GP_BO": "#2a78d6", "STABLEOPT": "#2e9e5b", "RP_BO": "#8a5cc2
                    "DRBO": "#c2417a", "AIRBO": "#1a9fb3"}
 ALPHA = 0.05
 GRID = "#e1e0d9"
+CHECKPOINTS = (1, 25, 50, 75, 100)
 
-
+# Lädet alle Daten rein 
 def load_all_iterations(csv_path, metric="simple_regret", scenarios=None):
-    """Metrik in jeder Iteration jedes erfolgreichen Experiments."""
     cols = ["algorithm", "function", "dimension", "scenario", "intensity",
             "repetition", "iteration", "status", metric]
     parts = []
@@ -49,8 +51,9 @@ def load_all_iterations(csv_path, metric="simple_regret", scenarios=None):
     return pd.concat(parts).drop(columns="status")
 
 
-def wilcoxon_per_iteration(df, metric="simple_regret", reference=REFERENCE):
-    """Referenz gegen jedes andere Verfahren, je Setting und Iteration."""
+def wilcoxon_per_iteration(df, metric="simple_regret", reference=REFERENCE,
+                           checkpoints=CHECKPOINTS):
+    """Referenz gegen jedes andere Verfahren, je Setting und Checkpoint."""
     rows = []
     setting_keys = ["scenario", "intensity", "function", "dimension"]
     for setting, sub in df.groupby(setting_keys):
@@ -61,10 +64,13 @@ def wilcoxon_per_iteration(df, metric="simple_regret", reference=REFERENCE):
         if reference not in algorithms:
             continue
         ref = wide[reference]
+        # Checkpoints hinter dem Budget auf die letzte Iteration setzen
+        last = wide.index.max()
+        tested = sorted({min(c, last) for c in checkpoints})
         for opponent in [a for a in algorithms if a != reference]:
             other = wide[opponent]
             reps = ref.columns.intersection(other.columns)
-            for iteration in wide.index:
+            for iteration in tested:
                 a, b = ref.loc[iteration, reps], other.loc[iteration, reps]
                 valid = a.notna() & b.notna()
                 if valid.sum() < 2:
@@ -74,8 +80,7 @@ def wilcoxon_per_iteration(df, metric="simple_regret", reference=REFERENCE):
                              "B": opponent,
                              **_wilcoxon_diff(_log(a[valid]) - _log(b[valid]))})
     table = pd.DataFrame(rows)
-    table["p_holm"] = table.groupby(setting_keys + ["iteration"])["p"].transform(
-        lambda p: _holm(p.values))
+    table["p_holm"] = table.groupby(setting_keys)["p"].transform(lambda p: _holm(p.values))
     # Vorzeichenbehafteter p-Wert: + = Referenz besser, - = Referenz schlechter
     table["signed_log_p"] = -np.log10(table["p_holm"].clip(lower=1e-300)) * -np.sign(table["r_rb"])
     return table
@@ -114,13 +119,19 @@ def plot_wilcoxon_over_iterations(table, scenario, intensity, out_path, referenc
             panel = sub[(sub["dimension"] == dim) & (sub["function"] == fn)]
             ax.axhspan(-threshold, threshold, color="#efeee9", lw=0, zorder=0)
             ax.axhline(0, color="#c3c2b7", lw=0.8, zorder=1)
-            for opponent in opponents:
+            for k, opponent in enumerate(opponents):
                 line = panel[panel["B"] == opponent].sort_values("iteration")
                 if line.empty:
                     continue
-                ax.plot(line["iteration"], line["signed_log_p"],
-                        color=OPPONENT_COLORS.get(opponent, MUTED), lw=1.6,
-                        label=f"vs. {opponent}", zorder=2)
+                color = OPPONENT_COLORS.get(opponent, MUTED)
+                # Punkte = Tests, seitlich versetzt, damit gleiche p-Werte sichtbar
+                # bleiben; die duenne Linie verbindet nur zur Orientierung
+                x = line["iteration"] + 1.2 * (k - (len(opponents) - 1) / 2)
+                ax.plot(x, line["signed_log_p"], color=color, lw=0.8, alpha=0.45, zorder=2)
+                ax.plot(x, line["signed_log_p"], color=color, lw=0, marker="o",
+                        markersize=5.5, markeredgecolor="white", markeredgewidth=0.7,
+                        label=f"vs. {opponent}", zorder=3)
+            ax.set_xticks(sorted(panel["iteration"].unique()))
             ax.set_ylim(-limit, limit)
             ax.grid(True, color=GRID, lw=0.6)
             ax.tick_params(colors=MUTED, labelsize=8, length=0)
@@ -148,10 +159,10 @@ def plot_wilcoxon_over_iterations(table, scenario, intensity, out_path, referenc
                fontsize=9, bbox_to_anchor=(0.5, -0.01))
     label = SCENARIO_LABELS.get(scenario, scenario)
     n_rep = int(sub["n"].max())
-    fig.suptitle(f"Wilcoxon-Vorzeichen-Rang-Test je Iteration – {reference} gegen alle Verfahren, "
+    fig.suptitle(f"Wilcoxon-Vorzeichen-Rang-Test an Checkpoints – {reference} gegen alle Verfahren, "
                  f"{label}, Stufe {intensity:g}, n = {n_rep} gepaarte Wiederholungen\n"
                  f"Graues Band: p ≥ {ALPHA:g} (kein signifikanter Unterschied) · "
-                 f"Holm-korrigiert über die Vergleiche je Iteration", fontsize=10, color=INK)
+                 f"Holm-korrigiert über Checkpoints × Gegner je Panel", fontsize=10, color=INK)
     fig.tight_layout(rect=(0, 0.04, 1, 1))
     out_path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(out_path, dpi=200, bbox_inches="tight")
@@ -165,9 +176,9 @@ if __name__ == "__main__":
     metric = sys.argv[2] if len(sys.argv) > 2 else "simple_regret"
 
     table = wilcoxon_per_iteration(load_all_iterations(csv, metric), metric)
-    print(_save_table(table, f"wilcoxon_verlauf_{Path(csv).stem}_{metric}"))
+    print(_save_table(table, f"wilcoxon_checkpoints_{Path(csv).stem}_{metric}"))
     for (scenario, intensity), _ in table.groupby(["scenario", "intensity"]):
         print(plot_wilcoxon_over_iterations(
             table, scenario, intensity,
-            FIGURES_DIR / "verlauf" / Path(csv).stem /
-            f"wilcoxon_verlauf_{scenario}_{intensity:g}_{metric}.png"))
+            FIGURES_DIR / "checkpoints" / Path(csv).stem /
+            f"wilcoxon_checkpoints_{scenario}_{intensity:g}_{metric}.png"))

@@ -5,6 +5,8 @@ Angepasste Kopie von ROBO/DRBO.py. Gegenueber dem Original:
   - gleiches GP-Modell wie GP_BO (RBF-ARD, LogNormal-Priors)
   - Szenario prior_error: Mean-Konstante wird wie bei GP_BO eingefroren
   - Zufall ueber den rng des Runners, Rueckgabe (next_x, acq_value, model_info)
+  - Data-Driven-Setting: der Kontext c_t wird nicht vom Algorithmus gewaehlt,
+    sondern aus einer festen, dem Algorithmus unbekannten P* gezogen (Gleichverteilung)
 """
 
 import numpy as np
@@ -38,15 +40,21 @@ def _solve_worst_case_weights(lcb_values, w_ref, M, epsilon):
     # erwarteten lcb innerhalb der MMD-Kugel um w_ref
     n = len(lcb_values)
 
+    # Analytische Gradienten (jac) bzgl. w: Ziel und Nebenbedingungen haengen nur von
+    # lcb, w_ref und M ab, nicht von der Black-Box-Funktion. Ohne jac schaetzt SLSQP
+    # sie per finiten Differenzen (n zusaetzliche Auswertungen je Schritt). M ist symmetrisch.
     constraints = [
-        {"type": "eq", "fun": lambda w: np.sum(w) - 1.0},
-        {"type": "ineq", "fun": lambda w: epsilon ** 2 - (w - w_ref) @ M @ (w - w_ref)},
+        {"type": "eq", "fun": lambda w: np.sum(w) - 1.0,
+         "jac": lambda w: np.ones(n)},
+        {"type": "ineq", "fun": lambda w: epsilon ** 2 - (w - w_ref) @ M @ (w - w_ref),
+         "jac": lambda w: -2.0 * (M @ (w - w_ref))},
     ]
     bounds = [(0.0, 1.0)] * n
 
     res = scipy.optimize.minimize(
         lambda w: -(w @ lcb_values),
         w_ref.copy(),
+        jac=lambda w: -lcb_values,
         method="SLSQP",
         bounds=bounds,
         constraints=constraints,
@@ -70,15 +78,15 @@ def run_drbo(train_X, train_Y, dim, acquisition_func,
     3. Fuer jedes Kandidaten-x: w_lcb_x ueber das konvexe Programm bestimmen (worst-case
        Gewichtung der Kontext-Kandidaten unter dem LCB-Modell)
     4. x_t = argmin_x <w_lcb_x, lcb_x>
-    5. naechster Kontext wird aus der worst-case-Verteilung w_lcb_{x_t} gezogen
+    5. Die Umgebung gibt den Kontext vor: c_t ~ P* (Gleichverteilung auf dem Kontextraum),
+       ausgewertet wird f(x_t, c_t). Nur so ist P_hat_t eine Stichprobe von P* und Lemma 3 gilt.
     (Minimierungs-Form; das Paper formuliert fuer Maximierung mit ucb/argmax.)
-       (Simulator-Setting-Approximation, da die Umgebung den echten Kontext vorgibt)
 
     train_X : torch.double, shape [n, dim]
     train_Y : torch.double, shape [n, 1] (Minimierungs-Konvention, y = f)
     dim     : int, Dimension des Gesamtraums (Kontrollvariablen + Kontextvariablen)
     prior_offset : float (Szenario prior_error) oder None
-    rng     : np.random.Generator fuer Kandidaten und Kontext-Ziehung (vom Runner pro Wiederholung)
+    rng     : np.random.Generator fuer Kandidaten und die Ziehung c_t ~ P* (vom Runner pro Wiederholung)
     kernel, context_dim, ..., beta : aus config.ALGORITHM_CONFIGS["DRBO"]
 
     Rueckgabe: (next_x, acq_value, model_info)
@@ -152,29 +160,38 @@ def run_drbo(train_X, train_Y, dim, acquisition_func,
 
     best_val = np.inf
     best_x = None
-    best_w = None
 
+    # LCB aller (x, c)-Paare in einem Posterior-Aufruf: Zeile i = Kandidat x_i
     with torch.no_grad():
-        for x in x_candidates:
-            xc_pairs = np.hstack([np.tile(x, (n_c, 1)), context_candidates])
-            xc_tensor = torch.as_tensor(xc_pairs, dtype=torch.double)
-            posterior = model.posterior(xc_tensor)
-            mean = posterior.mean.squeeze(-1).numpy()
-            std = posterior.variance.clamp_min(1e-12).sqrt().squeeze(-1).numpy()
-            lcb = mean - (beta ** 0.5) * std
+        xc_pairs = np.hstack([np.repeat(x_candidates, n_c, axis=0),
+                              np.tile(context_candidates, (n_x_candidates, 1))])
+        posterior = model.posterior(torch.as_tensor(xc_pairs, dtype=torch.double))
+        mean = posterior.mean.squeeze(-1).numpy()
+        std = posterior.variance.clamp_min(1e-12).sqrt().squeeze(-1).numpy()
+        lcb_all = (mean - (beta ** 0.5) * std).reshape(n_x_candidates, n_c)
 
-            w_worst = _solve_worst_case_weights(lcb, w_ref, M, epsilon_t)
-            value = w_worst @ lcb
+    # Exaktes Pruning: w_ref liegt in der MMD-Kugel, also ist der Worst-Case-Wert eines
+    # Kandidaten nie kleiner als sein nominaler Wert w_ref @ lcb. Kandidaten werden nach
+    # nominalem Wert sortiert abgearbeitet; sobald dieser >= best_val ist, kann kein
+    # weiterer Kandidat mehr gewinnen. Gleiches Ergebnis wie die volle Schleife, nur schneller.
+    nominal_values = lcb_all @ w_ref
+    for i in np.argsort(nominal_values, kind="stable"):
+        if nominal_values[i] >= best_val:
+            break
+        lcb = lcb_all[i]
+        w_worst = _solve_worst_case_weights(lcb, w_ref, M, epsilon_t)
+        value = w_worst @ lcb
 
-            if value < best_val:
-                best_val = value
-                best_x = x
-                best_w = w_worst
+        if value < best_val:
+            best_val = value
+            best_x = x_candidates[i]
 
-    # 5) naechster Kontext: Ziehung aus der worst-case-Verteilung an x_t (Simulator-Setting)
-    w_normalized = np.clip(best_w, 0.0, None)
-    w_normalized /= w_normalized.sum()
-    next_context = context_candidates[rng.choice(n_c, p=w_normalized)]
+
+
+    # 5) naechster Kontext: von der Umgebung vorgegeben, c_t ~ P* (Data-Driven-Setting).
+    # P* = Gleichverteilung auf dem Kontextraum (wie das LHS-Startdesign); der
+    # Algorithmus kennt P* nicht und waehlt c_t nicht selbst.
+    next_context = rng.uniform(lower_bound, upper_bound, size=context_dim)
 
     next_x_full = np.concatenate([best_x, next_context])
     next_x = torch.as_tensor(next_x_full, dtype=torch.double)
@@ -184,12 +201,13 @@ def run_drbo(train_X, train_Y, dim, acquisition_func,
     hyperparameters.update({
         "acq_beta": beta,
         "context_dim": context_dim,
+        "context_distribution": "uniform",
         "epsilon_t": float(epsilon_t),
         "delta": delta,
         "mmd_lengthscale": mmd_lengthscale,
         "n_context_candidates": n_context_candidates,
-        "n_x_candidates": n_x_candidates,
-    })
+        "n_x_candidates": n_x_candidates,})
+    
     return next_x, acq_value, {
         "posterior_mean": posterior_mean_fn(model),
         "posterior_std": posterior_std_fn(model),

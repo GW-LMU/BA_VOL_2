@@ -1,13 +1,3 @@
-"""Robuste Relevance-Pursuit-GP-Variante (Ament et al. 2024) fuer die Pipeline.
-
-Angepasste Kopie von ROBO/Relevance_Pursuit.py. Gegenueber dem Original:
-  - Bounds kommen aus config.BOUNDS bzw. vom Runner
-  - gleicher Kernel wie GP_BO (RBF-ARD mit dimensionsskaliertem Prior), damit
-    sich die Verfahren nur in der Ausreisser-Likelihood unterscheiden
-  - Szenario prior_error: Mean-Konstante wird wie bei GP_BO eingefroren
-  - Rueckgabe (next_x, acq_value, model_info) wie bei den anderen Verfahren
-"""
-
 import torch
 from botorch.models.robust_relevance_pursuit_model import RobustRelevancePursuitSingleTaskGP
 from botorch.models.transforms import Normalize, Standardize
@@ -26,23 +16,8 @@ from main_processing.algorithms.gp_bo import (
 def run_relevance_pursuit(train_X, train_Y, dim, acquisition_func,
                           lower_bound=config.BOUNDS[0], upper_bound=config.BOUNDS[1],
                           prior_offset=None, *, kernel, beta, num_restarts, raw_samples):
-    """
-    Fuehrt die robuste Relevance-Pursuit-GP-Variante fuer eine Iteration aus:
-    1) RobustRelevancePursuitSingleTaskGP fitten (erkennt Ausreisser automatisch
-       ueber eine datenpunktspezifische Rauschvarianz, siehe Ament et al. 2024)
-    2) passende Akquisitionsfunktion anhand von acquisition_func waehlen ("EI", "LCB")
-    3) naechsten Punkt per optimize_acqf vorschlagen (Zufall ueber den torch-Seed des Runners)
-
-    train_X : torch.double, shape [n, dim]
-    train_Y : torch.double, shape [n, 1] (Minimierungs-Konvention, y = f)
-    prior_offset : float (Szenario prior_error) oder None
-    kernel, beta, num_restarts, raw_samples : aus config.ALGORITHM_CONFIGS["RP_BO"]
-
-    Rueckgabe: (next_x, acq_value, model_info) mit posterior_mean/-std und hyperparameters
-    """
-    bounds = torch.tensor(
-        [[lower_bound] * dim, [upper_bound] * dim], dtype=torch.double
-    )
+    
+    bounds = torch.tensor([[lower_bound] * dim, [upper_bound] * dim], dtype=torch.double)
 
     # 1) Modell (Inputs auf [0,1]^d normalisiert, Outputs standardisiert). Die
     #    Likelihood bleibt die Ausreisser-Likelihood des Modells (SparseOutlierNoise)

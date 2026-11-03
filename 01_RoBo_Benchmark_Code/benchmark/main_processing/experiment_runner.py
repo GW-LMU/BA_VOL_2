@@ -71,10 +71,20 @@ def _to_json(value, sig_digits=None):
     return json.dumps(value, default=float)
 
 
-def get_algorithm_params(algorithm):
-    # Einstellungen aus config.ALGORITHM_CONFIGS ohne die beiden Auswahl-Schluessel
-    return {key: value for key, value in config.ALGORITHM_CONFIGS[algorithm].items()
-            if key not in ("surrogate_model", "acquisition")}
+def get_algorithm_params(algorithm, dimension):
+    # Einstellungen aus config.ALGORITHM_CONFIGS ohne die beiden Auswahl-Schluessel.
+    # Dict-Werte mit int-Schluesseln sind dimensionsabhaengig ({2: ..., 5: ..., 10: ...})
+    # und werden hier zum Wert der aktuellen Dimension aufgeloest.
+    params = {}
+    for key, value in config.ALGORITHM_CONFIGS[algorithm].items():
+        if key in ("surrogate_model", "acquisition"):
+            continue
+        if isinstance(value, dict) and value and all(isinstance(k, int) for k in value):
+            if dimension not in value:
+                raise ValueError(f"{algorithm}.{key}: kein Wert fuer Dimension {dimension} hinterlegt.")
+            value = value[dimension]
+        params[key] = value
+    return params
 
 
 def select_and_run_variant(surrogate_model, acquisition_func, train_X, train_Y, dim,
@@ -157,12 +167,17 @@ def run_single_experiment(experiment):
 
     surrogate_model = experiment["surrogate_model"]
     acquisition_func = experiment["acquisition_func"]
-    algo_params = get_algorithm_params(experiment["algorithm"])
     function = experiment["function"]
     dimension = experiment["dimension"]
+    algo_params = get_algorithm_params(experiment["algorithm"], dimension)
     instance = experiment["instance"]
     scenario = experiment["scenario"]
     intensity = experiment["intensity"]
+    # AIRBO braucht die Eingabeverteilung P_x (im Paper als bekannt angenommen):
+    # im Szenario stochastic_input das tatsaechliche Rauschen, sonst das Rauschen der Robustheitsmetriken
+    if experiment["surrogate_model"] == "AIRBO" and algo_params.get("noise_std") is None:
+        algo_params["noise_std"] = (intensity if scenario == "stochastic_input" and intensity > 0
+                                    else config.METRIC_SIGMA)
     repetition = experiment["repetition"]                       # Das ist der Tensor Block
     n_start_samples = experiment["n_start_samples"]
     # budget = Auswertungen gesamt INKL. Startpunkte (config.EVALUATION_BUDGET),

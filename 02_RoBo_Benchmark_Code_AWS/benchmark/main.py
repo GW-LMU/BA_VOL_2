@@ -5,9 +5,16 @@
 #     python main.py --jobs 4             # Anzahl Prozesse (ueberschreibt config.N_JOBS)
 
 import argparse
+import os
+from datetime import date
 from pathlib import Path
 
 from preprocessing import config
+
+# BLAS-Threads begrenzen, BEVOR numpy/torch importiert werden. Gilt auch fuer die
+# Worker-Prozesse -> sequentieller und paralleler Lauf rechnen bitgleich.
+for _var in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS"):
+    os.environ[_var] = str(config.THREADS_PER_JOB)
 from preprocessing.experiment_design import create_experiment_table, remove_duplicate_nominal_runs
 from main_processing.experiment_runner import run_experiments
 from postprocessing.excel_export import export_excel
@@ -23,7 +30,9 @@ def main(max_experiments=None, output_path=None, n_jobs=None):
     print(f"{len(experiments)} Experimente geplant.")
 
     # 2. Experimente durchfuehren (Ergebnisse werden laufend in output_path geschrieben)
-    output_path = output_path or config.RESULTS_DIR / "raw" / "results.csv"
+    # Datum im Dateinamen: Fortsetzen nach Abbruch klappt automatisch nur am selben Tag,
+    # fuer aeltere Laeufe die Datei per --output angeben.
+    output_path = output_path or config.RESULTS_DIR / "raw" / f"results_{date.today():%Y-%m-%d}.csv"
     results_df = run_experiments(experiments, output_path=output_path, n_jobs=n_jobs)
 
     print(f"Fertig: {len(results_df)} Zeilen, gespeichert in {output_path}")

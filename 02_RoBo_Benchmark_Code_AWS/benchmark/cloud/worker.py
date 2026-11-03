@@ -30,7 +30,13 @@ import threading
 import time
 import traceback
 
+from preprocessing import config
 from cloud import aws_settings as aws
+
+# BLAS-Threads begrenzen, BEVOR numpy/torch importiert werden (wie main.py), damit
+# Cloud- und lokaler Lauf bitgleich rechnen. Die Kindprozesse erben die Variablen.
+for _var in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS"):
+    os.environ[_var] = str(config.THREADS_PER_JOB)
 
 
 def _heartbeat(sqs, url, receipt, stop):
